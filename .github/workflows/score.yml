@@ -1,7 +1,8 @@
 name: Score beaches
 on:
   schedule:
-    - cron: '0 20 * * *'   # 3 PM Eastern in winter, 4 PM in summer
+    - cron: '45 11 * * *'   # 6:45 AM Eastern in winter, 7:45 AM in summer
+    - cron: '45 19 * * *'   # 2:45 PM Eastern in winter, 3:45 PM in summer
   workflow_dispatch:        # lets you run it by hand from the Actions tab
 permissions:
   contents: write
