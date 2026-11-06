@@ -1,0 +1,77 @@
+// SharkLeash Best Beaches: scores every beach for tonight's 4-10 PM window and writes data/best-beaches.json
+// Runs on GitHub Actions on a schedule. Data: NWS hourly forecast, NOAA NDBC buoys and MUR satellite water temp (via CoastWatch ERDDAP).
+const fs = require('fs');
+var SPOTS=[["Sand Beach (Acadia), ME",44.330,-68.183],["Reid State Park, ME",43.776,-69.729],["Popham Beach, ME",43.737,-69.797],["Higgins Beach, ME",43.563,-70.276],["Old Orchard Beach, ME",43.514,-70.374],["Ogunquit, ME",43.249,-70.592],["Rye Harbor, NH",42.991,-70.743],["Hampton Beach, NH",42.909,-70.811],["Plum Island, MA",42.760,-70.797],["Race Point, MA",42.075,-70.244],["Nauset Beach, MA",41.787,-69.937],["Sandy Neck, MA",41.739,-70.380],["Chatham, MA",41.669,-69.947],["Horseneck Beach, MA",41.505,-71.026],["Great Point (Nantucket), MA",41.390,-70.048],["Wasque (Martha's Vineyard), MA",41.351,-70.452],["Narragansett, RI",41.430,-71.455],["Charlestown Breachway, RI",41.356,-71.640],["Misquamicut, RI",41.322,-71.808],["Ocean Beach Park, CT",41.307,-72.095],["Hammonasset, CT",41.258,-72.552],["Silver Sands, CT",41.200,-73.070],["Montauk, NY",41.071,-71.857],["Shinnecock Inlet, NY",40.840,-72.477],["Smith Point, NY",40.733,-72.860],["Robert Moses SP, NY",40.625,-73.255],["Long Beach, NY",40.584,-73.656],["Jones Beach, NY",40.583,-73.507],["Rockaway Beach, NY",40.580,-73.825],["Breezy Point, NY",40.556,-73.930],["Sandy Hook, NJ",40.430,-73.990],["Asbury Park, NJ",40.220,-73.998],["Manasquan Inlet, NJ",40.103,-74.035],["Seaside Heights, NJ",39.944,-74.073],["Island Beach SP, NJ",39.866,-74.087],["Barnegat Light, NJ",39.763,-74.105],["Holgate (LBI), NJ",39.546,-74.264],["Atlantic City, NJ",39.355,-74.433],["Ocean City, NJ",39.264,-74.584],["Wildwood, NJ",38.983,-74.818],["Cape May, NJ",38.930,-74.920],["Cape Henlopen, DE",38.790,-75.091],["Rehoboth Beach, DE",38.718,-75.075],["Indian River Inlet, DE",38.610,-75.064],["Fenwick Island, DE",38.462,-75.050],["Ocean City, MD",38.360,-75.072],["Assateague, MD",38.210,-75.153],["Chincoteague, VA",37.905,-75.343],["Ocean View (Norfolk), VA",36.955,-76.248],["Virginia Beach Oceanfront, VA",36.851,-75.972],["Sandbridge, VA",36.722,-75.937],["False Cape, VA",36.590,-75.875],["Corolla, NC",36.377,-75.830],["Kill Devil Hills, NC",36.030,-75.676],["Nags Head, NC",35.957,-75.624],["Oregon Inlet, NC",35.774,-75.527],["Avon, NC",35.352,-75.505],["Buxton, NC",35.268,-75.523],["Frisco, NC",35.234,-75.611],["Cape Hatteras, NC",35.230,-75.528],["Ocracoke, NC",35.105,-75.966],["Atlantic Beach, NC",34.698,-76.740],["Emerald Isle, NC",34.661,-77.047],["Topsail Beach, NC",34.366,-77.629],["Wrightsville Beach, NC",34.209,-77.796],["Carolina Beach, NC",34.035,-77.893],["Kure Beach, NC",33.998,-77.907],["Fort Fisher, NC",33.955,-77.925],["Holden Beach, NC",33.912,-78.302],["Oak Island, NC",33.906,-78.160],["Ocean Isle Beach, NC",33.889,-78.432],["Myrtle Beach, SC",33.689,-78.887],["Isle of Palms, SC",32.786,-79.785],["Sullivan's Island, SC",32.761,-79.840],["Folly Beach, SC",32.655,-79.940],["Kiawah Island, SC",32.597,-80.080],["Edisto Beach, SC",32.480,-80.320],["Hunting Island, SC",32.375,-80.430],["Hilton Head, SC",32.150,-80.740],["Tybee Island, GA",32.006,-80.845],["St. Simons Island, GA",31.150,-81.367],["Jekyll Island, GA",31.064,-81.410],["Amelia Island, FL",30.670,-81.430],["Little Talbot Island, FL",30.405,-81.405],["Jacksonville Beach, FL",30.286,-81.391],["St. Augustine Beach, FL",29.857,-81.263],["Matanzas Inlet, FL",29.715,-81.233],["Flagler Beach, FL",29.475,-81.127],["Daytona Beach, FL",29.210,-81.015],["New Smyrna Beach, FL",29.024,-80.915],["Playalinda Beach, FL",28.655,-80.632],["Cocoa Beach, FL",28.320,-80.607],["Melbourne Beach, FL",28.065,-80.555],["Sebastian Inlet, FL",27.861,-80.447],["Vero Beach, FL",27.638,-80.373],["Fort Pierce, FL",27.470,-80.290],["Hutchinson Island, FL",27.248,-80.200],["Jupiter Inlet, FL",26.944,-80.072],["Juno Beach, FL",26.880,-80.054],["Palm Beach, FL",26.705,-80.034],["Boca Raton, FL",26.350,-80.068],["Pompano Beach, FL",26.233,-80.088],["Fort Lauderdale, FL",26.122,-80.103],["Haulover, FL",25.900,-80.120],["Miami Beach, FL",25.790,-80.128],["Islamorada, FL",24.924,-80.627],["Marathon, FL",24.710,-81.090],["Bahia Honda, FL",24.656,-81.277],["Key West, FL",24.548,-81.795]];
+var SPX={sb:{n:'Sandbar',t:[58,82]},st:{n:'Sand tiger',t:[55,76]},du:{n:'Dusky',t:[62,80]},bt:{n:'Blacktip',t:[68,86]},sp:{n:'Spinner',t:[68,86]},
+  sn:{n:'Atlantic sharpnose',t:[66,88]},bo:{n:'Bonnethead',t:[68,90]},ft:{n:'Finetooth',t:[70,88]},bu:{n:'Bull',t:[70,92]},le:{n:'Lemon',t:[70,90]},
+  ti:{n:'Tiger',t:[72,90]},nu:{n:'Nurse',t:[72,90]},sh:{n:'Scalloped hammerhead',t:[72,88]},gh:{n:'Great hammerhead',t:[72,88]},
+  sm:{n:'Smooth dogfish',t:[50,72]},sd:{n:'Spiny dogfish',t:[40,64]}};
+var PROT_ALL=['sb','st','du'],PROT_ST={FL:['le','ti','sh','gh']};
+var SPM={
+ME:[['sd','000012333210'],['st','000000111000']],
+NH:[['sd','000012333210'],['st','000000111000']],
+MA:[['sb','000002332000'],['st','000001332100'],['du','000000221000'],['sm','000012221100'],['sd','000121000121']],
+RI:[['sb','000001332000'],['sm','000023332100'],['st','000001221000'],['du','000000111000'],['sd','000121000121']],
+CT:[['sb','000001221000'],['st','000001221000'],['sm','000022222100'],['du','000000111000'],['sd','000121000121']],
+NY:[['sb','000012333100'],['du','000001332100'],['st','000012332100'],['sm','000222222110'],['bt','000000012100'],['sd','211200000112']],
+NJ:[['sb','000012333210'],['st','000012333210'],['du','000001222100'],['sm','000222222110'],['bt','000000012100'],['sp','000000012100'],['sd','221200000122']],
+DE:[['st','000123333210'],['sb','000123333210'],['du','000001222100'],['sm','001232222210'],['sd','221100000122']],
+MD:[['sb','000013333210'],['st','000123332100'],['du','000001222100'],['sm','001222222110'],['bt','000000112100'],['sd','221100000122']],
+VA:[['sb','000123333210'],['sn','000013332100'],['du','000012222100'],['st','000122221100'],['sm','012321112210'],['bt','000001221100'],['sh','000001221000'],['sd','221000000012']],
+NC:[['bt','000123333210'],['sn','000133333210'],['sb','111223332211'],['bo','000122222210'],['du','001221000110'],['st','112211000111'],['sp','000012222100'],['bu','000001222100'],['ti','000001111100'],['sm','221100000012'],['sd','332100000123']],
+SC:[['sn','000233333320'],['bt','001233333210'],['sb','000122332100'],['bo','000222222210'],['sp','000122222100'],['bu','000012222100'],['ft','000012222100'],['sh','000012221000'],['du','000110000110'],['st','111100000011'],['sm','221100000012']],
+GA:[['sn','000233333320'],['bo','001233333221'],['bt','001233333210'],['sb','000112221100'],['bu','000012222100'],['sp','000122222100'],['ft','000012222100'],['st','111000000011'],['sm','211000000012']],
+FL:[['bt','333332222333'],['le','332100000123'],['bu','112333332211'],['nu','112333332211'],['sp','332100000123'],['sn','222222222222'],['bo','222222222222'],['ti','111122222111'],['sb','221100000012'],['gh','112210000000']]
+};
+var DEEP="4433,-6818,137,191,h|4378,-6973,137,164,m|4374,-6980,1668,1750,l|4356,-7028,301,492,h|4351,-7037,328,519,h|4325,-7059,383,519,h|4299,-7074,328,547,l|4291,-7081,273,383,h|4276,-7080,137,410,h|4208,-7024,164,246,m|4179,-6994,82,219,h|4174,-7038,109,301,h|4167,-6995,273,355,l|4150,-7103,109,246,h|4139,-7005,55,55,l|4135,-7045,301,437,l|4143,-7146,109,164,h|4136,-7164,137,246,h|4132,-7181,82,137,h|4131,-7210,55,82,m|4126,-7255,164,246,h|4120,-7307,574,820,h|4107,-7186,109,219,h|4084,-7248,,,i|4073,-7286,82,383,h|4062,-7326,328,574,h|4058,-7366,191,355,h|4058,-7351,137,328,m|4058,-7382,219,301,h|4056,-7393,273,383,l|4043,-7399,82,109,h|4022,-7400,82,82,h|4010,-7404,164,246,m|3994,-7407,109,137,h|3987,-7409,164,246,h|3976,-7410,191,246,h|3955,-7426,164,273,l|3935,-7443,301,766,h|3926,-7458,273,383,m|3898,-7482,848,902,h|3893,-7492,164,301,h|3879,-7509,55,109,h|3872,-7508,55,82,h|3861,-7506,137,137,h|3846,-7505,55,109,h|3836,-7507,137,191,h|3821,-7515,164,246,h|3790,-7534,547,601,h|3696,-7625,437,875,m|3685,-7597,164,246,m|3672,-7594,137,273,h|3659,-7588,328,492,h|3638,-7583,219,273,h|3603,-7568,219,273,h|3596,-7562,191,246,h|3577,-7553,273,301,h|3535,-7550,191,301,h|3527,-7552,273,328,l|3523,-7561,355,437,m|3523,-7553,273,383,l|3510,-7597,191,273,h|3470,-7674,219,410,h|3466,-7705,219,301,h|3437,-7763,219,273,h|3421,-7780,137,328,h|3403,-7789,273,437,h|3400,-7791,137,273,h|3396,-7792,437,711,l|3391,-7830,219,301,h|3391,-7816,219,328,m|3389,-7843,219,301,h|3369,-7889,137,246,h|3279,-7978,355,1941,h|3276,-7984,164,1968,l|3266,-7994,355,+2543,h|3260,-8008,465,1449,m|3248,-8032,574,2625,m|3238,-8043,+2707,+2707,m|3215,-8074,1886,+2187,h|3201,-8084,1066,2160,h|3115,-8137,820,1449,l|3106,-8141,+2078,+2078,h|3067,-8143,273,1640,h|3040,-8140,137,164,h|3029,-8139,273,383,h|2986,-8126,219,301,m|2972,-8123,55,301,h|2948,-8113,164,301,h|2921,-8102,328,437,m|2902,-8092,,,i|2866,-8063,191,246,h|2832,-8061,219,383,h|2806,-8056,191,355,h|2786,-8045,191,683,l|2764,-8037,273,383,m|2747,-8029,,,i|2725,-8020,219,355,m|2694,-8007,,,i|2688,-8005,109,410,h|2670,-8003,164,355,h|2635,-8007,109,191,h|2623,-8009,109,246,h|2612,-8010,55,82,h|2590,-8012,,,i|2579,-8013,164,219,h|2492,-8063,1722,2215,l|2471,-8109,656,+2734,l|2466,-8128,437,547,l|2455,-8180,601,875,l".split('|').map(function(r){var a=r.split(',');return {d10:a[2],c:a[4]};});
+const BAN={NJ:1,MA:1,NY:1};
+const PARK={"Sand Beach (Acadia), ME":"Acadia NP","Race Point, MA":"Cape Cod NS","Nauset Beach, MA":"Cape Cod NS","Sandy Hook, NJ":"Gateway NRA","Breezy Point, NY":"Gateway NRA","Assateague, MD":"Assateague NS","Chincoteague, VA":"Chincoteague NWR","Oregon Inlet, NC":"Cape Hatteras NS","Avon, NC":"Cape Hatteras NS","Buxton, NC":"Cape Hatteras NS","Frisco, NC":"Cape Hatteras NS","Cape Hatteras, NC":"Cape Hatteras NS","Ocracoke, NC":"Cape Hatteras NS","Playalinda Beach, FL":"Canaveral NS","False Cape, VA":"False Cape SP"};
+const UA={'User-Agent':'SharkLeash Best Beaches (sharkleashfishing.com)','Accept':'application/geo+json'};
+const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+const TZ='America/New_York';
+function km(a,b,c,d){var r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math.sin((d-b)*r/2);return 12742*Math.asin(Math.sqrt(x*x+Math.cos(a*r)*Math.cos(c*r)*y*y));}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function getJ(u,h,t=4){for(let k=0;k<t;k++){try{const r=await fetch(u,{headers:h||UA});if(r.ok)return await r.json();}catch(e){}await sleep(1500*(k+1));}throw new Error('failed '+u);}
+function st(s){var m=/,\s*([A-Z]{2})$/.exec(s[0]);return m?m[1]:'';}
+function hourNY(d){return +new Intl.DateTimeFormat('en-US',{hour:'numeric',hour12:false,timeZone:TZ}).format(d)%24;}
+async function buoys(){var q=['station,latitude,longitude,time,WVHT,WTMP','time>=now-6hours','latitude>=24','latitude<=45.5','longitude>=-82.5','longitude<=-66','orderByMax("station,time")'].map(encodeURIComponent).join('&');
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wt:r[I('WTMP')]}));}catch(e){console.log('buoys failed');return [];}}
+async function sat(){var q='analysed_sst[(last)][(24.4):20:(45)][(-82):20:(-66.5)]';
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('satellite failed');return [];}}
+function near(list,lat,lon,maxKm,ok){var b=null,bd=1e9;list.forEach(p=>{if(!ok(p))return;var d=km(lat,lon,p.lat,p.lon);if(d<bd){bd=d;b=p;}});return bd<=maxKm?b:null;}
+let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch(e){}
+async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
+  if(!h){var j=await getJ('https://api.weather.gov/points/'+s[1].toFixed(4)+','+s[2].toFixed(4));h=j.properties.forecastHourly;PTS[k]=h;}
+  var f=await getJ(h),P=f.properties.periods,now=Date.now(),i0=-1;
+  for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);if(t.getTime()>=now-36e5&&hourNY(t)>=16){i0=i;break;}}if(i0<0)i0=0;
+  var W=P.slice(i0,i0+6),sp=W.map(p=>Math.max.apply(null,(String(p.windSpeed).match(/\d+/g)||[0]).map(Number))),avg=sp.reduce((a,b)=>a+b,0)/sp.length;
+  var A=P.slice(i0,i0+36),t0=A[0].temperature,n=0;A.forEach(p=>{var d=DIRS.indexOf(p.windDirection);if((d>=13||d<=2)&&t0-p.temperature>=8)n++;});
+  var before=P.slice(i0,i0+4).every(p=>{var d=DIRS.indexOf(p.windDirection);return d>=5&&d<=11;});
+  return {avg:Math.round(avg),dir:W[0].windDirection,front:n>=2&&before,start:W[0].startTime};}
+function lv(code,s,MO){var rows=SPM[st(s)]||[];for(var i=0;i<rows.length;i++)if(rows[i][0]===code){var P=rows[i][1];if(code==='bu'&&st(s)==='FL'&&s[1]<27.6)P='222333333222';return +P.charAt(MO);}return 0;}
+function score(s,w,wv,wt,dp,MO){var b={};
+  var v=w?w.avg:null;b.wind=v===null?10:v<5?10+3*v:v<=12?25:v>=29?0:Math.round(25*(29-v)/17);
+  b.waves=wv==null?8:wv<1?9:wv<=3?15:wv<=5?Math.round(15-5*(wv-3)):wv<=6?3:0;
+  b.temp=wt==null?8:(wt>=66&&wt<=82)?20:Math.max(0,Math.round(20-2*(wt<66?66-wt:wt-82)));
+  var sum=0,list=[];(SPM[st(s)]||[]).forEach(r=>{var l=lv(r[0],s,MO),sp=SPX[r[0]];if(!l)return;var fit=wt==null||(wt>=sp.t[0]&&wt<=sp.t[1]);if(!fit)return;sum+=l===3?3:l===2?2:0.5;if(l>=2)list.push(sp.n);});
+  b.sharks=Math.round(25*Math.min(1,sum/10));
+  var d=dp?dp.d10:'';b.deep=dp&&dp.c==='i'?12:!d?7:d.charAt(0)==='+'||+d>800?2:+d<=150?15:Math.round(15-10*Math.min(1,(+d-150)/450));
+  b.front=w&&w.front?5:0;
+  return {b:b,tot:b.wind+b.waves+b.temp+b.sharks+b.deep+b.front,list:list};}
+(async function(){
+  var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
+  var [B,S]=await Promise.all([buoys(),sat()]);
+  var W=new Array(SPOTS.length),i=0,fails=0;
+  async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
+  await Promise.all([worker(),worker(),worker(),worker()]);
+  var R=SPOTS.map((s,i)=>{var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt));
+    var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:null,sc=score(s,W[i],wv,wt,DEEP[i],MO),stt=st(s);
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,score:sc.tot,parts:sc.b,sharks:sc.list,
+      flag:BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]?'no drones ('+PARK[s[0]]+')':''};});
+  if(fails>40){console.error('Too many forecast failures ('+fails+'); keeping the previous file.');process.exit(1);}
+  fs.mkdirSync('data',{recursive:true});
+  fs.writeFileSync('data/points.json',JSON.stringify(PTS));
+  fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
+  var top=R.filter(r=>!r.flag).sort((a,b)=>b.score-a.score).slice(0,5);
+  console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
+})();
