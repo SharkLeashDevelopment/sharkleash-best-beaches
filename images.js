@@ -36,7 +36,8 @@ function draw(top, W, H) {
     x.fillStyle = '#fff'; fit(x, r.name, W - 420, tall ? 52 : 44); x.fillText(r.name, 200, Y + (tall ? 78 : 62));
     const d = (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ' · ' + (Math.round(r.wv * 2) / 2) + ' ft' : '') + (r.wt != null ? ' · ' + Math.round(r.wt) + '°F' : '');
     x.fillStyle = 'rgba(255,255,255,.8)'; fit(x, d, W - 420, tall ? 38 : 32); x.fillText(d, 200, Y + (tall ? 132 : 106));
-    if (r.w && r.w.front && tall) { x.fillStyle = '#ffb020'; x.font = 'bold 32px ' + FONT; x.fillText('⚡ front coming', 200, Y + 178); }
+    const extra = [r.note ? '🏠 private property launch only' : '', r.w && r.w.front ? '⚡ front coming' : ''].filter(Boolean).join('  ·  ');
+    if (extra) { x.fillStyle = '#ffb020'; fit(x, extra, W - 420, tall ? 32 : 24); x.fillText(extra, 200, Y + (tall ? 178 : 131)); }
     x.fillStyle = '#6ee7ff'; x.font = 'bold ' + (tall ? 70 : 58) + 'px ' + FONT;
     const sc = String(r.score), sw = x.measureText(sc).width; x.fillText(sc, W - 100 - sw, Y + (rowH - 22) / 2 + (tall ? 24 : 20));
     x.fillStyle = 'rgba(255,255,255,.5)'; x.font = 'bold ' + (tall ? 24 : 20) + 'px ' + FONT;
@@ -50,7 +51,7 @@ function draw(top, W, H) {
 function caption(top) {
   const d = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: TZ });
   return '🦈 Best shark beaches tonight, ' + d + ' (drone-legal spots)\n\n' +
-    top.map((r, i) => (i + 1) + '. ' + r.name + ': ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '')).join('\n') +
+    top.map((r, i) => (i + 1) + '. ' + r.name + ': ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '') + (r.note ? ' · ' + r.note : '')).join('\n') +
     '\n\nCheck your own beach free at SharkLeashFishing.com\n#sharkfishing #landbasedsharkfishing #dronefishing #LBSF #sharkleash\n';
 }
 module.exports = function makeImages(top, outDir) {
