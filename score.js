@@ -15,9 +15,11 @@ async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=awai
   SPOTS=j.beaches.map(b=>[b.name+', '+b.state,b.lat,b.lon]);
   DEEP=j.beaches.map(b=>{var d=b.depth||{};return {d10:f(d.to10ftYd),c:C[d.confidence]||'m'};});
   SPM=j.speciesByMonth||{};
+  PARK={};j.beaches.forEach(b=>{if(b.noDrones)PARK[b.name+', '+b.state]=b.noDrones;});
+  if(!Object.keys(PARK).length){console.error('No no-drone parks in shark-data.json (old copy?); keeping the previous file.');process.exit(1);}
   BAN={};(j.states||[]).forEach(s=>{if(s.drone&&s.drone.status==='ban')BAN[s.ab]=1;});
-  console.log('Loaded '+SPOTS.length+' beaches, '+Object.keys(SPM).length+' species tables; drone bans: '+Object.keys(BAN).join(', '));}
-const PARK={"Sand Beach (Acadia), ME":"Acadia NP","Race Point, MA":"Cape Cod NS","Nauset Beach, MA":"Cape Cod NS","Sandy Hook, NJ":"Gateway NRA","Breezy Point, NY":"Gateway NRA","Assateague, MD":"Assateague NS","Chincoteague, VA":"Chincoteague NWR","Oregon Inlet, NC":"Cape Hatteras NS","Avon, NC":"Cape Hatteras NS","Buxton, NC":"Cape Hatteras NS","Frisco, NC":"Cape Hatteras NS","Cape Hatteras, NC":"Cape Hatteras NS","Ocracoke, NC":"Cape Hatteras NS","Playalinda Beach, FL":"Canaveral NS","False Cape, VA":"False Cape SP"};
+  console.log('Loaded '+SPOTS.length+' beaches ('+Object.keys(PARK).length+' no-drone parks), '+Object.keys(SPM).length+' species tables; drone bans: '+Object.keys(BAN).join(', '));}
+var PARK={};
 const UA={'User-Agent':'SharkLeash Best Beaches (sharkleashfishing.com)','Accept':'application/geo+json'};
 const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
 const TZ='America/New_York';
