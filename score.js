@@ -23,13 +23,17 @@ const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','
 const TZ='America/New_York';
 function km(a,b,c,d){var r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math.sin((d-b)*r/2);return 12742*Math.asin(Math.sqrt(x*x+Math.cos(a*r)*Math.cos(c*r)*y*y));}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function getJ(u,h,t=4){for(let k=0;k<t;k++){try{const r=await fetch(u,{headers:h||UA});if(r.ok)return await r.json();}catch(e){}await sleep(1500*(k+1));}throw new Error('failed '+u);}
+async function getJ(u,h,t=4){var why='';for(let k=0;k<t;k++){try{const r=await fetch(u,{headers:h||UA,signal:AbortSignal.timeout(45000)});if(r.ok)return await r.json();why='HTTP '+r.status;}catch(e){why=e.message;}await sleep(1500*(k+1));}throw new Error(why||'failed');}
 function st(s){var m=/,\s*([A-Z]{2})$/.exec(s[0]);return m?m[1]:'';}
 function hourNY(d){return +new Intl.DateTimeFormat('en-US',{hour:'numeric',hour12:false,timeZone:TZ}).format(d)%24;}
 async function buoys(){var q=['station,latitude,longitude,time,WVHT,WTMP','time>=now-6hours','latitude>=24','latitude<=45.5','longitude>=-82.5','longitude<=-66','orderByMax("station,time")'].map(encodeURIComponent).join('&');
-  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wt:r[I('WTMP')]}));}catch(e){console.log('buoys failed');return [];}}
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wt:r[I('WTMP')]}));}catch(e){console.log('CoastWatch buoys failed ('+e.message+'); trying NDBC latest observations');return await ndbcLatest();}}
+async function ndbcLatest(){try{var r=await fetch('https://www.ndbc.noaa.gov/data/latest_obs/latest_obs.txt',{headers:{'User-Agent':UA['User-Agent']},signal:AbortSignal.timeout(45000)});if(!r.ok)throw new Error('HTTP '+r.status);
+  var L=(await r.text()).split('\n'),h=L[0].replace('#','').trim().split(/\s+/),iA=h.indexOf('LAT'),iO=h.indexOf('LON'),iW=h.indexOf('WVHT'),iT=h.indexOf('WTMP'),n=v=>v==null||v==='MM'?null:+v;
+  var out=L.filter(l=>l&&l[0]!=='#').map(l=>l.trim().split(/\s+/)).filter(a=>+a[iA]>=24&&+a[iA]<=45.5&&+a[iO]>=-82.5&&+a[iO]<=-66).map(a=>({lat:+a[iA],lon:+a[iO],wv:n(a[iW]),wt:n(a[iT])}));
+  console.log('NDBC latest observations: '+out.length+' stations');return out;}catch(e){console.log('NDBC latest observations failed ('+e.message+')');return [];}}
 async function sat(){var q='analysed_sst[(last)][(24.4):20:(45)][(-82):20:(-66.5)]';
-  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('satellite failed');return [];}}
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('Satellite water temp failed ('+e.message+')');return [];}}
 function near(list,lat,lon,maxKm,ok){var b=null,bd=1e9;list.forEach(p=>{if(!ok(p))return;var d=km(lat,lon,p.lat,p.lon);if(d<bd){bd=d;b=p;}});return bd<=maxKm?b:null;}
 let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch(e){}
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
@@ -55,7 +59,7 @@ function score(s,w,wv,wt,dp,MO){var b={};
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
   var [B,S]=await Promise.all([buoys(),sat()]);
   /* if NOAA buoys or satellite are down, reuse the last good surf / water temp (up to 12 hours old) instead of scoring blind */
-  var PREV={},PREV_ENV=null;try{var pj=JSON.parse(fs.readFileSync('data/best-beaches.json','utf8'));PREV_ENV=pj.envUpdated||pj.updated;if(Date.now()-new Date(PREV_ENV).getTime()<12*36e5)pj.beaches.forEach(b=>{PREV[b.name]=b;});}catch(e){}
+  var PREV={},PREV_ENV=null;try{var lg=JSON.parse(fs.readFileSync('data/last-good-readings.json','utf8'));PREV_ENV=lg.at;if(Date.now()-new Date(lg.at).getTime()<12*36e5)PREV=lg.beaches||{};}catch(e){}
   var noWave=!B.some(p=>p.wv!=null&&!isNaN(p.wv)),noTemp=!B.some(p=>p.wt!=null&&!isNaN(p.wt))&&!S.length;
   if(noWave||noTemp)console.log('NOAA data missing (waves: '+(noWave?'no':'ok')+', water temp: '+(noTemp?'no':'ok')+'); reusing last good values for '+Object.keys(PREV).length+' beaches');
   var W=new Array(SPOTS.length),i=0,fails=0;
@@ -68,7 +72,8 @@ function score(s,w,wv,wt,dp,MO){var b={};
   if(fails>40){console.error('Too many forecast failures ('+fails+'); keeping the previous file.');process.exit(1);}
   fs.mkdirSync('data',{recursive:true});
   fs.writeFileSync('data/points.json',JSON.stringify(PTS));
-  fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),envUpdated:(noWave||noTemp)&&Object.keys(PREV).length?PREV_ENV:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
+  if(!noWave&&!noTemp){var LG={};R.forEach(r=>{LG[r.name]={wv:r.wv,wt:r.wt};});fs.writeFileSync('data/last-good-readings.json',JSON.stringify({at:new Date().toISOString(),beaches:LG}));}
+  fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),envUpdated:(noWave||noTemp)?PREV_ENV:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
   var top=R.filter(r=>!r.flag).sort((a,b)=>b.score-a.score).slice(0,5);
   try{require('./images.js')(top,'post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
