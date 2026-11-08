@@ -54,17 +54,22 @@ function score(s,w,wv,wt,dp,MO){var b={};
   await loadShared();
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
   var [B,S]=await Promise.all([buoys(),sat()]);
+  /* if NOAA buoys or satellite are down, reuse the last good surf / water temp (up to 12 hours old) instead of scoring blind */
+  var PREV={},PREV_ENV=null;try{var pj=JSON.parse(fs.readFileSync('data/best-beaches.json','utf8'));PREV_ENV=pj.envUpdated||pj.updated;if(Date.now()-new Date(PREV_ENV).getTime()<12*36e5)pj.beaches.forEach(b=>{PREV[b.name]=b;});}catch(e){}
+  var noWave=!B.some(p=>p.wv!=null&&!isNaN(p.wv)),noTemp=!B.some(p=>p.wt!=null&&!isNaN(p.wt))&&!S.length;
+  if(noWave||noTemp)console.log('NOAA data missing (waves: '+(noWave?'no':'ok')+', water temp: '+(noTemp?'no':'ok')+'); reusing last good values for '+Object.keys(PREV).length+' beaches');
   var W=new Array(SPOTS.length),i=0,fails=0;
   async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
   await Promise.all([worker(),worker(),worker(),worker()]);
   var R=SPOTS.map((s,i)=>{var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt));
-    var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:null,sc=score(s,W[i],wv,wt,DEEP[i],MO),stt=st(s);
+    var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO),stt=st(s);
     return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,score:sc.tot,parts:sc.b,sharks:sc.list,
       flag:BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]?'no drones ('+PARK[s[0]]+')':''};});
   if(fails>40){console.error('Too many forecast failures ('+fails+'); keeping the previous file.');process.exit(1);}
   fs.mkdirSync('data',{recursive:true});
   fs.writeFileSync('data/points.json',JSON.stringify(PTS));
-  fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
+  fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),envUpdated:(noWave||noTemp)&&Object.keys(PREV).length?PREV_ENV:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
   var top=R.filter(r=>!r.flag).sort((a,b)=>b.score-a.score).slice(0,5);
+  try{require('./images.js')(top,'post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
 })();
