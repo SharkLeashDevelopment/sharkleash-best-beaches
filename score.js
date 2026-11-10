@@ -40,6 +40,12 @@ async function ndbcLatest(){try{var r=await fetch('https://www.ndbc.noaa.gov/dat
   console.log('NDBC latest observations: '+out.length+' stations');return out;}catch(e){console.log('NDBC latest observations failed ('+e.message+')');return [];}}
 async function sat(){var q='analysed_sst[(last)][(24.4):20:(45)][(-98):20:(-66.5)]';
   try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('Satellite water temp failed ('+e.message+')');return [];}}
+/* backup waves where no buoy is in range: NOAA WaveWatch III model, 0.5 degree grid, nearest hour */
+async function ww3(){var t=new Date();t.setUTCMinutes(0,0,0);var T=t.toISOString().replace('.000','');
+  var box='[('+T+')][(0.0)][(24):1:(45.5)][(262):1:(294)]',q='Thgt'+box+',Tper'+box;
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/NWW3_Global_Best.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']},3);var c=j.table.columnNames,I=n=>c.indexOf(n);
+    var out=j.table.rows.filter(r=>r[I('Thgt')]!=null&&!isNaN(r[I('Thgt')])).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')]-360,wv:r[I('Thgt')],wp:r[I('Tper')]}));
+    console.log('Wave model: '+out.length+' ocean cells');return out;}catch(e){console.log('Wave model failed ('+e.message+')');return [];}}
 function near(list,lat,lon,maxKm,ok){var b=null,bd=1e9;list.forEach(p=>{if(!ok(p))return;var d=km(lat,lon,p.lat,p.lon);if(d<bd){bd=d;b=p;}});return bd<=maxKm?b:null;}
 let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch(e){}
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
@@ -63,7 +69,7 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
 (async function(){
   await loadShared();
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
-  var [B,S]=await Promise.all([buoys(),sat()]);
+  var [B,S,M]=await Promise.all([buoys(),sat(),ww3()]);
   /* if NOAA buoys or satellite are down, reuse the last good surf / water temp (up to 12 hours old) instead of scoring blind */
   var PREV={},PREV_ENV=null;try{var lg=JSON.parse(fs.readFileSync('data/last-good-readings.json','utf8'));PREV_ENV=lg.at;if(Date.now()-new Date(lg.at).getTime()<12*36e5)PREV=lg.beaches||{};}catch(e){}
   var noWave=!B.some(p=>p.wv!=null&&!isNaN(p.wv)),noTemp=!B.some(p=>p.wt!=null&&!isNaN(p.wt))&&!S.length;
@@ -72,8 +78,9 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
   await Promise.all([worker(),worker(),worker(),worker()]);
   var R=SPOTS.map((s,i)=>{var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt));
-    var wp=bw&&bw.wp>0?bw.wp:null;var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,score:sc.tot,parts:sc.b,sharks:sc.list,
+    var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
+    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,score:sc.tot,parts:sc.b,sharks:sc.list,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
   var CST={};try{CST=JSON.parse(fs.readFileSync('data/clarity-state.json','utf8'));}catch(e){}
