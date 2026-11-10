@@ -42,10 +42,15 @@ async function sat(){var q='analysed_sst[(last)][(24.4):20:(45)][(-98):20:(-66.5
   try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('Satellite water temp failed ('+e.message+')');return [];}}
 /* backup waves where no buoy is in range: NOAA WaveWatch III model, 0.5 degree grid, nearest hour */
 async function ww3(){var t=new Date();t.setUTCMinutes(0,0,0);var T=t.toISOString().replace('.000','');
-  var box='[('+T+')][(0.0)][(24):1:(45.5)][(262):1:(294)]',q='Thgt'+box+',Tper'+box;
-  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/NWW3_Global_Best.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']},3);var c=j.table.columnNames,I=n=>c.indexOf(n);
-    var out=j.table.rows.filter(r=>r[I('Thgt')]!=null&&!isNaN(r[I('Thgt')])).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')]-360,wv:r[I('Thgt')],wp:r[I('Tper')]}));
-    console.log('Wave model: '+out.length+' ocean cells');return out;}catch(e){console.log('Wave model failed ('+e.message+')');return [];}}
+  /* upwell carries the current run (forecast days ahead); coastwatch's copy can lag a day, so it is only the backup */
+  var tries=[['https://upwell.pfeg.noaa.gov','('+T+')'],['https://coastwatch.pfeg.noaa.gov','(last)']];
+  for(var k=0;k<tries.length;k++){var box='['+tries[k][1]+'][(0.0)][(24):1:(45.5)][(262):1:(294)]',q='Thgt'+box+',Tper'+box;
+    try{var j=await getJ(tries[k][0]+'/erddap/griddap/NWW3_Global_Best.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']},2);var c=j.table.columnNames,I=n=>c.indexOf(n);
+      var out=j.table.rows.filter(r=>r[I('Thgt')]!=null&&!isNaN(r[I('Thgt')])).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')]-360,wv:r[I('Thgt')],wp:r[I('Tper')]}));
+      var tm=j.table.rows.length?j.table.rows[0][I('time')]:'?';
+      console.log('Wave model: '+out.length+' ocean cells from '+tries[k][0].split('//')[1].split('.')[0]+' ('+tm+')');if(out.length)return out;}
+    catch(e){console.log('Wave model failed on '+tries[k][0].split('//')[1].split('.')[0]+' ('+e.message+')');}}
+  return [];}
 function near(list,lat,lon,maxKm,ok){var b=null,bd=1e9;list.forEach(p=>{if(!ok(p))return;var d=km(lat,lon,p.lat,p.lon);if(d<bd){bd=d;b=p;}});return bd<=maxKm?b:null;}
 let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch(e){}
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
