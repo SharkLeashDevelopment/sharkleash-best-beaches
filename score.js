@@ -33,10 +33,10 @@ async function getJ(u,h,t=4){var why='';for(let k=0;k<t;k++){try{const r=await f
 function st(s){var m=/,\s*([A-Z]{2})$/.exec(s[0]);return m?m[1]:'';}
 function hourNY(d){return +new Intl.DateTimeFormat('en-US',{hour:'numeric',hour12:false,timeZone:TZ}).format(d)%24;}
 async function buoys(){var q=['station,latitude,longitude,time,WVHT,DPD,WTMP','time>=now-6hours','latitude>=24','latitude<=45.5','longitude>=-98','longitude<=-66','orderByMax("station,time")'].map(encodeURIComponent).join('&');
-  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wp:r[I('DPD')],wt:r[I('WTMP')]}));}catch(e){console.log('CoastWatch buoys failed ('+e.message+'); trying NDBC latest observations');return await ndbcLatest();}}
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({id:r[I('station')],lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wp:r[I('DPD')],wt:r[I('WTMP')]}));}catch(e){console.log('CoastWatch buoys failed ('+e.message+'); trying NDBC latest observations');return await ndbcLatest();}}
 async function ndbcLatest(){try{var r=await fetch('https://www.ndbc.noaa.gov/data/latest_obs/latest_obs.txt',{headers:{'User-Agent':UA['User-Agent']},signal:AbortSignal.timeout(45000)});if(!r.ok)throw new Error('HTTP '+r.status);
   var L=(await r.text()).split('\n'),h=L[0].replace('#','').trim().split(/\s+/),iA=h.indexOf('LAT'),iO=h.indexOf('LON'),iW=h.indexOf('WVHT'),iP=h.indexOf('DPD'),iT=h.indexOf('WTMP'),n=v=>v==null||v==='MM'?null:+v;
-  var out=L.filter(l=>l&&l[0]!=='#').map(l=>l.trim().split(/\s+/)).filter(a=>+a[iA]>=24&&+a[iA]<=45.5&&+a[iO]>=-98&&+a[iO]<=-66).map(a=>({lat:+a[iA],lon:+a[iO],wv:n(a[iW]),wp:iP<0?null:n(a[iP]),wt:n(a[iT])}));
+  var out=L.filter(l=>l&&l[0]!=='#').map(l=>l.trim().split(/\s+/)).filter(a=>+a[iA]>=24&&+a[iA]<=45.5&&+a[iO]>=-98&&+a[iO]<=-66).map(a=>({id:a[0],lat:+a[iA],lon:+a[iO],wv:n(a[iW]),wp:iP<0?null:n(a[iP]),wt:n(a[iT])}));
   console.log('NDBC latest observations: '+out.length+' stations');return out;}catch(e){console.log('NDBC latest observations failed ('+e.message+')');return [];}}
 async function sat(){var q='analysed_sst[(last)][(24.4):20:(45)][(-98):20:(-66.5)]';
   try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('Satellite water temp failed ('+e.message+')');return [];}}
@@ -51,6 +51,12 @@ async function ww3(){var t=new Date();t.setUTCMinutes(0,0,0);var T=t.toISOString
       console.log('Wave model: '+out.length+' ocean cells from '+tries[k][0].split('//')[1].split('.')[0]+' ('+tm+')');if(out.length)return out;}
     catch(e){console.log('Wave model failed on '+tries[k][0].split('//')[1].split('.')[0]+' ('+e.message+')');}}
   return [];}
+/* a station counts for a beach only if it is out to sea from it: within the angle below of the way the beach faces, or right at the beach (a pier).
+   This keeps harbor, bay and sound sensors behind or beside a beach from standing in for the ocean. */
+function brg(a,b,c,d){var r=Math.PI/180,y=Math.sin((d-b)*r)*Math.cos(c*r),x=Math.cos(a*r)*Math.sin(c*r)-Math.sin(a*r)*Math.cos(c*r)*Math.cos((d-b)*r);return (Math.atan2(y,x)/r+360)%360;}
+/* offshore buoys (5-digit ids) may sit up or down the coast, so they get 110 degrees; shore stations (letter ids, often in harbors) get 75. Ocean piers are allowed by name. */
+var OCEAN_PIERS={LKWF1:1,MROS1:1,JMPN7:1,DUKN7:1};
+function seaward(lat,lon,faces,p){if(faces==null||OCEAN_PIERS[p.id])return true;if(km(lat,lon,p.lat,p.lon)<=3)return true;var d=Math.abs(brg(lat,lon,p.lat,p.lon)-faces)%360;if(d>180)d=360-d;return d<=(/^\d{5}$/.test(String(p.id))?110:75);}
 function near(list,lat,lon,maxKm,ok){var b=null,bd=1e9;list.forEach(p=>{if(!ok(p))return;var d=km(lat,lon,p.lat,p.lon);if(d<bd){bd=d;b=p;}});return bd<=maxKm?b:null;}
 let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch(e){}
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
@@ -82,11 +88,16 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   var W=new Array(SPOTS.length),i=0,fails=0;
   async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
   await Promise.all([worker(),worker(),worker(),worker()]);
-  var R=SPOTS.map((s,i)=>{var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt));
+  var nSkip=0,nSat=0;
+  var R=SPOTS.map((s,i)=>{var fc=CLB[i]&&CLB[i].faces,sw=p=>seaward(s[1],s[2],fc,p);
+    var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)&&sw(p)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt)&&sw(p));
+    if(!bt&&near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt)))nSkip++;
+    var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
-    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,score:sc.tot,parts:sc.b,sharks:sc.list,
+    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,parts:sc.b,sharks:sc.list,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
+  console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
   var CST={};try{CST=JSON.parse(fs.readFileSync('data/clarity-state.json','utf8'));}catch(e){}
   var nowMs=Date.now(),cN=0;
