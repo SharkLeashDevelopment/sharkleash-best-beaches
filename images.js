@@ -41,7 +41,7 @@ function draw(top, W, H) {
     x.fillStyle = '#6ee7ff'; x.font = 'bold ' + (tall ? 70 : 58) + 'px ' + FONT;
     const sc = String(r.score), sw = x.measureText(sc).width; x.fillText(sc, W - 100 - sw, Y + (rowH - 22) / 2 + (tall ? 24 : 20));
     x.fillStyle = 'rgba(255,255,255,.5)'; x.font = 'bold ' + (tall ? 24 : 20) + 'px ' + FONT;
-    const lbw = x.measureText('score').width; x.fillText('score', W - 100 - lbw, Y + (rowH - 22) / 2 + (tall ? 58 : 48));
+    const lbw = x.measureText('drop score').width; x.fillText('drop score', W - 100 - lbw, Y + (rowH - 22) / 2 + (tall ? 58 : 48));
   });
   const fy = H - (tall ? 170 : 90); rr(x, '#ff3b1f', 60, fy - (tall ? 70 : 58), W - 120, tall ? 110 : 90, 26);
   const ft = 'Check your beach free: SharkLeashFishing.com'; x.fillStyle = '#fff'; fit(x, ft, W - 180, tall ? 44 : 38);
@@ -51,8 +51,8 @@ function draw(top, W, H) {
 function caption(top) {
   const d = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: TZ });
   return '🦈 Best shark beaches tonight, ' + d + ' (drone-legal spots)\n\n' +
-    top.map((r, i) => (i + 1) + '. ' + r.name + ': ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '') + (r.note ? ' · ' + r.note : '')).join('\n') +
-    '\n\nCheck your own beach free at SharkLeashFishing.com\n#sharkfishing #landbasedsharkfishing #dronefishing #LBSF #sharkleash\n';
+    top.map((r, i) => (i + 1) + '. ' + r.name + ' (' + r.score + '): ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '') + (r.note ? ' · ' + r.note : '')).join('\n') +
+    '\n\nRanked by the SharkLeash Drop Score (out of 100): wind, surf, water temp, sharks running and deep water close.\nCheck your own beach free at SharkLeashFishing.com\n#sharkleashfishing #sharkfishing #landbasedsharkfishing #dronefishing #LBSF\n';
 }
 module.exports = function makeImages(top, outDir) {
   fs.mkdirSync(outDir, { recursive: true });
