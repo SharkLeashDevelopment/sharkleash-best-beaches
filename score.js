@@ -8,7 +8,8 @@ var SPX={sk:{n:'Silky',t:[70,88]},bn:{n:'Blacknose',t:[70,88]},sb:{n:'Sandbar',t
 var PROT_ALL=['sb','st','du'],PROT_ST={FL:['le','ti','sh','gh']};
 // Beaches, depth, species tables and drone-ban states come from the shared data file (edit them there, not here):
 const DATA_URL='https://raw.githubusercontent.com/SharkLeashDevelopment/sharkleash-data/main/shark-data.json';
-var SPOTS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[];
+var SPOTS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],CLB=[];
+const {updateClarity}=require('./clarity.js');
 async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=await fetch(DATA_URL+'?t='+Date.now());if(r.ok)j=await r.json();}catch(e){}if(!j)await sleep(2000);}
   if(!j||!Array.isArray(j.beaches)||!j.beaches.length){console.error('Could not load shark-data.json; keeping the previous file.');process.exit(1);}
   var C={high:'h',medium:'m',low:'l',inlet:'i'},f=v=>v==null?'':String(v).replace(/^>\s*/,'+');
@@ -17,6 +18,7 @@ async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=awai
   SPM=Object.assign({},j.speciesByMonth||{},j.speciesByRegion||{});
   REG=j.beaches.map(b=>b.speciesRegion&&SPM[b.speciesRegion]?b.speciesRegion:b.state);
   LBAN=j.beaches.map(b=>b.localBan||'');
+  CLB=j.beaches.map(b=>({faces:b.faces,clarityBase:b.clarityBase||0}));
   PARK={};PRIV={};j.beaches.forEach(b=>{var k=b.name+', '+b.state;if(b.noDrones)PARK[k]=b.noDrones;if(b.privateLaunch)PRIV[k]=1;});
   if(!Object.keys(PARK).length){console.error('No no-drone parks in shark-data.json (old copy?); keeping the previous file.');process.exit(1);}
   BAN={};(j.states||[]).forEach(s=>{if(s.drone&&s.drone.status==='ban')BAN[s.ab]=1;});
@@ -30,11 +32,11 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function getJ(u,h,t=4){var why='';for(let k=0;k<t;k++){try{const r=await fetch(u,{headers:h||UA,signal:AbortSignal.timeout(45000)});if(r.ok)return await r.json();why='HTTP '+r.status;}catch(e){why=e.message;}await sleep(1500*(k+1));}throw new Error(why||'failed');}
 function st(s){var m=/,\s*([A-Z]{2})$/.exec(s[0]);return m?m[1]:'';}
 function hourNY(d){return +new Intl.DateTimeFormat('en-US',{hour:'numeric',hour12:false,timeZone:TZ}).format(d)%24;}
-async function buoys(){var q=['station,latitude,longitude,time,WVHT,WTMP','time>=now-6hours','latitude>=24','latitude<=45.5','longitude>=-98','longitude<=-66','orderByMax("station,time")'].map(encodeURIComponent).join('&');
-  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wt:r[I('WTMP')]}));}catch(e){console.log('CoastWatch buoys failed ('+e.message+'); trying NDBC latest observations');return await ndbcLatest();}}
+async function buoys(){var q=['station,latitude,longitude,time,WVHT,DPD,WTMP','time>=now-6hours','latitude>=24','latitude<=45.5','longitude>=-98','longitude<=-66','orderByMax("station,time")'].map(encodeURIComponent).join('&');
+  try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/tabledap/cwwcNDBCMet.json?'+q,{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],wv:r[I('WVHT')],wp:r[I('DPD')],wt:r[I('WTMP')]}));}catch(e){console.log('CoastWatch buoys failed ('+e.message+'); trying NDBC latest observations');return await ndbcLatest();}}
 async function ndbcLatest(){try{var r=await fetch('https://www.ndbc.noaa.gov/data/latest_obs/latest_obs.txt',{headers:{'User-Agent':UA['User-Agent']},signal:AbortSignal.timeout(45000)});if(!r.ok)throw new Error('HTTP '+r.status);
-  var L=(await r.text()).split('\n'),h=L[0].replace('#','').trim().split(/\s+/),iA=h.indexOf('LAT'),iO=h.indexOf('LON'),iW=h.indexOf('WVHT'),iT=h.indexOf('WTMP'),n=v=>v==null||v==='MM'?null:+v;
-  var out=L.filter(l=>l&&l[0]!=='#').map(l=>l.trim().split(/\s+/)).filter(a=>+a[iA]>=24&&+a[iA]<=45.5&&+a[iO]>=-98&&+a[iO]<=-66).map(a=>({lat:+a[iA],lon:+a[iO],wv:n(a[iW]),wt:n(a[iT])}));
+  var L=(await r.text()).split('\n'),h=L[0].replace('#','').trim().split(/\s+/),iA=h.indexOf('LAT'),iO=h.indexOf('LON'),iW=h.indexOf('WVHT'),iP=h.indexOf('DPD'),iT=h.indexOf('WTMP'),n=v=>v==null||v==='MM'?null:+v;
+  var out=L.filter(l=>l&&l[0]!=='#').map(l=>l.trim().split(/\s+/)).filter(a=>+a[iA]>=24&&+a[iA]<=45.5&&+a[iO]>=-98&&+a[iO]<=-66).map(a=>({lat:+a[iA],lon:+a[iO],wv:n(a[iW]),wp:iP<0?null:n(a[iP]),wt:n(a[iT])}));
   console.log('NDBC latest observations: '+out.length+' stations');return out;}catch(e){console.log('NDBC latest observations failed ('+e.message+')');return [];}}
 async function sat(){var q='analysed_sst[(last)][(24.4):20:(45)][(-98):20:(-66.5)]';
   try{var j=await getJ('https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41F.json?'+encodeURIComponent(q),{'User-Agent':UA['User-Agent']});var c=j.table.columnNames,I=n=>c.indexOf(n);return j.table.rows.filter(r=>r[I('analysed_sst')]!=null).map(r=>({lat:r[I('latitude')],lon:r[I('longitude')],f:r[I('analysed_sst')]}));}catch(e){console.log('Satellite water temp failed ('+e.message+')');return [];}}
@@ -70,12 +72,19 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
   await Promise.all([worker(),worker(),worker(),worker()]);
   var R=SPOTS.map((s,i)=>{var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt));
-    var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,score:sc.tot,parts:sc.b,sharks:sc.list,
+    var wp=bw&&bw.wp>0?bw.wp:null;var wt=bt?bt.wt*9/5+32:(()=>{var x=near(S,s[1],s[2],40,()=>true);return x?x.f:null;})(),wv=bw?bw.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,score:sc.tot,parts:sc.b,sharks:sc.list,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
+  /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
+  var CST={};try{CST=JSON.parse(fs.readFileSync('data/clarity-state.json','utf8'));}catch(e){}
+  var nowMs=Date.now(),cN=0;
+  R.forEach((r,i)=>{try{var c=updateClarity(CST,r.name,CLB[i],{waveFt:r.wv,periodS:r.wp,windMph:r.w?r.w.avg:null,windDir:r.w?r.w.dir:null},nowMs,r.wv!=null&&!noWave);
+    r.clarity=c?{rating:c.rating,vis:c.vis,why:c.why}:null;if(c)cN++;}catch(e){r.clarity=null;}});
+  console.log('Clarity outlook: '+cN+' of '+R.length+' beaches');
   if(fails>60){console.error('Too many forecast failures ('+fails+'); keeping the previous file.');process.exit(1);}
   fs.mkdirSync('data',{recursive:true});
   fs.writeFileSync('data/points.json',JSON.stringify(PTS));
+  if(!noWave)fs.writeFileSync('data/clarity-state.json',JSON.stringify(CST));
   if(!noWave&&!noTemp){var LG={};R.forEach(r=>{LG[r.name]={wv:r.wv,wt:r.wt};});fs.writeFileSync('data/last-good-readings.json',JSON.stringify({at:new Date().toISOString(),beaches:LG}));}
   fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),envUpdated:(noWave||noTemp)?PREV_ENV:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
   var top=R.filter(r=>!r.flag).sort((a,b)=>b.score-a.score).slice(0,5);
