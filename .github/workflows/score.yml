@@ -1,14 +1,10 @@
 name: Score beaches
 on:
   schedule:
-    - cron: '45 11-23/2 * * *'   # every 2 hours, 6:45 AM to 6:45 PM Eastern in winter (an hour later in summer)
-    - cron: '45 1 * * *'         # 8:45 PM Eastern in winter, 9:45 PM in summer
-  workflow_dispatch:             # lets you run it by hand from the Actions tab
+    - cron: '0 20 * * *'   # 3 PM Eastern in winter, 4 PM in summer
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
 permissions:
   contents: write
-concurrency:
-  group: score-beaches           # never run two at once
-  cancel-in-progress: false
 jobs:
   score:
     runs-on: ubuntu-latest
@@ -17,27 +13,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install image tools
-        run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation fonts-noto-color-emoji > /dev/null || echo "fonts install skipped"
-          npm install --no-save --silent @napi-rs/canvas@0.1 || echo "canvas install failed; images will be skipped"
       - run: node score.js
       - name: Save results
         run: |
           git config user.name "sharkleash-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data
-          git commit -m "Beach scores" || { echo "No changes"; exit 0; }
-          git pull --rebase
+          git commit -m "Daily beach scores" || echo "No changes"
           git push
-      - name: Publish post images (images branch, latest only)
-        if: hashFiles('post/tiktok.png') != ''
-        run: |
-          cd post
-          git init -q
-          git config user.name "sharkleash-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git checkout -q -b images
-          git add -A
-          git commit -q -m "Post images $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push -f -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" images
