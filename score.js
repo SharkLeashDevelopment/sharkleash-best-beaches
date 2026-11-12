@@ -96,7 +96,7 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
     var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:Math.min(100,sc.tot),raw:sc.tot,parts:sc.b,sharks:sc.list,
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
