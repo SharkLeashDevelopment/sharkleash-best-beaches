@@ -1,4 +1,5 @@
 // SharkLeash Best Beaches: scores every beach for tonight's 4-10 PM window and writes data/best-beaches.json
+// Runs every 2 hours. During the window it scores what's left of tonight; after 10 PM it moves to tomorrow evening.
 // Runs on GitHub Actions on a schedule. Data: NWS hourly forecast, NOAA NDBC buoys and MUR satellite water temp (via CoastWatch ERDDAP).
 const fs = require('fs');
 var SPX={sk:{n:'Silky',t:[70,88]},bn:{n:'Blacknose',t:[70,88]},sb:{n:'Sandbar',t:[58,82]},st:{n:'Sand tiger',t:[55,76]},du:{n:'Dusky',t:[62,80]},bt:{n:'Blacktip',t:[68,86]},sp:{n:'Spinner',t:[68,86]},
@@ -62,7 +63,7 @@ let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
   if(!h){var j=await getJ('https://api.weather.gov/points/'+s[1].toFixed(4)+','+s[2].toFixed(4));h=j.properties.forecastHourly;PTS[k]=h;}
   var f=await getJ(h),P=f.properties.periods,now=Date.now(),i0=-1;
-  for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);if(t.getTime()>=now-36e5&&+String(P[i].startTime).slice(11,13)>=16){i0=i;break;}}if(i0<0)i0=0;
+  for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);var hr=+String(P[i].startTime).slice(11,13);if(t.getTime()>=now-36e5&&hr>=16&&hr<22){i0=i;break;}}if(i0<0)i0=0;
   var W=P.slice(i0,i0+6),sp=W.map(p=>Math.max.apply(null,(String(p.windSpeed).match(/\d+/g)||[0]).map(Number))),avg=sp.reduce((a,b)=>a+b,0)/sp.length;
   var A=P.slice(i0,i0+36),t0=A[0].temperature,n=0;A.forEach(p=>{var d=DIRS.indexOf(p.windDirection);if((d>=13||d<=2)&&t0-p.temperature>=8)n++;});
   var before=P.slice(i0,i0+4).every(p=>{var d=DIRS.indexOf(p.windDirection);return d>=5&&d<=11;});
