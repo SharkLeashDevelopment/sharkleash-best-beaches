@@ -52,7 +52,7 @@ function caption(top) {
   const d = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: TZ });
   return '🦈 Best shark beaches tonight, ' + d + ' (drone-legal spots)\n\n' +
     top.map((r, i) => (i + 1) + '. ' + r.name + ' (' + r.score + '): ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '') + (r.note ? ' · ' + r.note : '')).join('\n') +
-    '\n\nRanked by the SharkLeash Drop Score (out of 100): wind, surf, water temp, sharks running and deep water close.\nCheck your own beach free at SharkLeashFishing.com\n#sharkleashfishing #sharkfishing #landbasedsharkfishing #dronefishing #LBSF\n';
+    '\n\nRanked by the SharkLeash Drop Score (out of 100): wind, surf, water temp, sharks and bait running, and deep water close.\nCheck your own beach free at SharkLeashFishing.com\n#sharkleashfishing #sharkfishing #landbasedsharkfishing #dronefishing #LBSF\n';
 }
 module.exports = function makeImages(top, outDir) {
   fs.mkdirSync(outDir, { recursive: true });
