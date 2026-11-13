@@ -32,6 +32,21 @@ const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','
 const TZ='America/New_York';
 function km(a,b,c,d){var r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math.sin((d-b)*r/2);return 12742*Math.asin(Math.sqrt(x*x+Math.cos(a*r)*Math.cos(c*r)*y*y));}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+/* angler reports (same Apps Script as the clarity buttons) and NOAA tide stations */
+const REPORT_URL='https://script.google.com/macros/s/AKfycbzO-9-krA8DIvmFRk1N-uIw6rYV1O75beHxxIi9IRthrOnoGBBSci6MONJU9apbPecACA/exec';
+const TIDE_URL='https://raw.githubusercontent.com/SharkLeashDevelopment/sharkleash-data/main/tide-stations.json';
+const NOFLY_MPH=25,NOFLY_CAP=40; /* evening average wind at or over this: "too windy to fly", total capped */
+/* "Bait showing tonight?" reports from the last 24 h: {"Name, ST":{counts:{yes,no},trusted}} */
+async function baitReports(){try{var r=await fetch(REPORT_URL+'?type=bait',{signal:AbortSignal.timeout(30000)});var j=await r.json();return j&&j.ok?j.beaches||{}:{};}catch(e){console.log('Bait reports unavailable: '+e.message);return {};}}
+/* high tide inside the evening window: nearest NOAA station within 30 km, hi/lo predictions */
+var TST=[],TCACHE={};
+async function loadTides(){try{var r=await fetch(TIDE_URL);TST=((await r.json()).stations||[]).map(x=>({id:x[0],name:x[1],lat:x[2],lon:x[3]}));}catch(e){TST=[];console.log('Tide stations unavailable');}}
+async function tideHi(st,startIso){var d=new Date(startIso),key=st.id+'_'+d.toISOString().slice(0,10);
+  if(!(key in TCACHE)){var bd=new Date(d.getTime()-6*36e5).toISOString().slice(0,10).replace(/-/g,'');
+    TCACHE[key]=getJ('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&interval=hilo&datum=MLLW&time_zone=gmt&units=english&format=json&application=SharkLeash&range=36&station='+st.id+'&begin_date='+bd,{'User-Agent':UA['User-Agent']},2)
+      .then(j=>(j.predictions||[]).map(p=>({t:Date.parse(p.t.replace(' ','T')+'Z'),type:p.type,v:+p.v}))).catch(()=>null);}
+  var P=await TCACHE[key];if(!P)return null;var t0=d.getTime(),t1=t0+6*36e5;
+  var hi=P.find(p=>p.type==='H'&&p.t>=t0&&p.t<=t1);return {station:st.name,high:hi?new Date(hi.t).toISOString():null};}
 async function getJ(u,h,t=4){var why='';for(let k=0;k<t;k++){try{const r=await fetch(u,{headers:h||UA,signal:AbortSignal.timeout(45000)});if(r.ok)return await r.json();why='HTTP '+r.status;}catch(e){why=e.message;}await sleep(1500*(k+1));}throw new Error(why||'failed');}
 function st(s){var m=/,\s*([A-Z]{2})$/.exec(s[0]);return m?m[1]:'';}
 function hourNY(d){return +new Intl.DateTimeFormat('en-US',{hour:'numeric',hour12:false,timeZone:TZ}).format(d)%24;}
@@ -71,7 +86,7 @@ async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
   var before=P.slice(i0,i0+4).every(p=>{var d=DIRS.indexOf(p.windDirection);return d>=5&&d<=11;});
   return {avg:Math.round(avg),dir:W[0].windDirection,front:n>=2&&before,start:W[0].startTime};}
 function lv(code,s,MO,rk){var rows=SPM[rk]||[];for(var i=0;i<rows.length;i++)if(rows[i][0]===code){var P=rows[i][1];if(code==='bu'&&rk==='FL'&&s[1]<27.6)P='222333333222';return +P.charAt(MO);}return 0;}
-function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
+function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   var v=w?w.avg:null;b.wind=v===null?10:v<5?10+3*v:v<=12?25:v>=29?0:Math.round(25*(29-v)/17);
   b.waves=wv==null?8:wv<1?9:wv<=3?15:wv<=5?Math.round(15-5*(wv-3)):wv<=6?3:0;
   b.temp=wt==null?8:(wt>=66&&wt<=82)?20:Math.max(0,Math.round(20-2*(wt<66?66-wt:wt-82)));
@@ -82,15 +97,21 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   var bt=BAIT[rk]||BAIT[st(s)],bsum=0,blist=[];
   if(bt){bt.forEach((r,ix)=>{var l=+r[1].charAt(MO);if(!l)return;bsum+=l===3?3:l===2?2:0.5;if(l>=2)blist.push({n:BAITN[r[0]]||r[0],l:l,ix:ix});});
     blist.sort((a,c)=>c.l-a.l||a.ix-c.ix);
-    b.sharks=Math.round(15*Math.min(1,sum/10));b.bait=Math.round(10*Math.min(1,bsum/8)*b.temp/20);}
+    /* anglers override the bait calendar: two matching reports in 24 h (or one from a tester code) */
+    var bf=Math.min(1,bsum/8),y=brep&&brep.counts?brep.counts.yes||0:0,nn=brep&&brep.counts?brep.counts.no||0:0;
+    if((y>=2&&y>nn)||(brep&&brep.trusted==='yes'))bf=1;else if((nn>=2&&nn>y)||(brep&&brep.trusted==='no'))bf=0;
+    b.sharks=Math.round(15*Math.min(1,sum/10));b.bait=Math.round(10*bf*b.temp/20);}
   else b.sharks=Math.round(25*Math.min(1,sum/10));
   var d=dp?dp.d10:'';b.deep=dp&&dp.c==='i'?12:!d?7:d.charAt(0)==='+'||+d>800?2:+d<=150?15:Math.round(15-10*Math.min(1,(+d-150)/450));
   b.front=w&&w.front?5:0;
-  return {b:b,tot:b.wind+b.waves+b.temp+b.sharks+(b.bait||0)+b.deep+b.front,list:list,maybe:maybe,rel:rel,bait:blist.map(x=>[x.n,x.l])};}
+  b.tide=tide&&tide.high?5:0; /* high tide inside the window: fishing the incoming */
+  var tot=b.wind+b.waves+b.temp+b.sharks+(b.bait||0)+b.deep+b.front+b.tide;
+  if(w&&w.avg>=NOFLY_MPH){b.nofly=1;tot=Math.min(tot,NOFLY_CAP);}
+  return {b:b,tot:tot,list:list,maybe:maybe,rel:rel,bait:blist.map(x=>[x.n,x.l])};}
 (async function(){
   await loadShared();
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
-  var [B,S,M]=await Promise.all([buoys(),sat(),ww3()]);
+  var [B,S,M,BREP]=await Promise.all([buoys(),sat(),ww3(),baitReports(),loadTides()]);
   /* if NOAA buoys or satellite are down, reuse the last good surf / water temp (up to 12 hours old) instead of scoring blind */
   var PREV={},PREV_ENV=null,LGALL={},NOW=Date.now(),FRESH=t=>t&&NOW-new Date(t).getTime()<12*36e5;try{var lg=JSON.parse(fs.readFileSync('data/last-good-readings.json','utf8'));PREV_ENV=lg.at;LGALL=lg.beaches||{};
     /* per beach and per reading: a value counts as last good for 12 h from when it was measured (older files have no per-beach times, so they use the file time) */
@@ -100,14 +121,20 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   var W=new Array(SPOTS.length),i=0,fails=0;
   async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
   await Promise.all([worker(),worker(),worker(),worker()]);
+  /* tides: one prediction call per station per night, shared by nearby beaches */
+  var TD=new Array(SPOTS.length),j2=0,tN=0;
+  async function tworker(){while(j2<SPOTS.length){var k=j2++,s=SPOTS[k];if(!W[k]||!TST.length)continue;var st0=near(TST,s[1],s[2],30,()=>true);if(!st0)continue;
+    var had=Object.keys(TCACHE).length;try{TD[k]=await tideHi(st0,W[k].start);}catch(e){}if(Object.keys(TCACHE).length>had)await sleep(150);}}
+  await Promise.all([tworker(),tworker(),tworker(),tworker()]);TD.forEach(t=>{if(t)tN++;});
+  console.log('Tides: '+tN+' beaches, '+Object.keys(TCACHE).length+' station lookups; bait reports for '+Object.keys(BREP).length+' beaches');
   var nSkip=0,nSat=0;
   var R=SPOTS.map((s,i)=>{var fc=CLB[i]&&CLB[i].faces,sw=p=>seaward(s[1],s[2],fc,p);
     var bw=near(B,s[1],s[2],80,p=>p.wv!=null&&!isNaN(p.wv)&&sw(p)),bt=near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt)&&sw(p));
     if(!bt&&near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt)))nSkip++;
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
-    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;var pv=PREV[s[0]]||{},wvOld=false,wtOld=false;if(wv==null&&pv.wv!=null){wv=pv.wv;wvOld=true;}if(wt==null&&pv.wt!=null){wt=pv.wt;wtOld=true;}var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,
+    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;var pv=PREV[s[0]]||{},wvOld=false,wtOld=false;if(wv==null&&pv.wv!=null){wv=pv.wv;wvOld=true;}if(wt==null&&pv.wt!=null){wt=pv.wt;wtOld=true;}var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i],TD[i],BREP[s[0]]),stt=st(s);
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,tide:TD[i]||undefined,baitRep:BREP[s[0]]?BREP[s[0]].counts:undefined,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
