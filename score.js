@@ -9,7 +9,7 @@ var SPX={sk:{n:'Silky',t:[70,88]},bn:{n:'Blacknose',t:[70,88]},sb:{n:'Sandbar',t
 var PROT_ALL=['sb','st','du'],PROT_ST={FL:['le','ti','sh','gh']};
 // Beaches, depth, species tables and drone-ban states come from the shared data file (edit them there, not here):
 const DATA_URL='https://raw.githubusercontent.com/SharkLeashDevelopment/sharkleash-data/main/shark-data.json';
-var SPOTS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],CLB=[];
+var SPOTS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],CLB=[],BAIT={},BAITN={};
 const {updateClarity}=require('./clarity.js');
 async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=await fetch(DATA_URL+'?t='+Date.now());if(r.ok)j=await r.json();}catch(e){}if(!j)await sleep(2000);}
   if(!j||!Array.isArray(j.beaches)||!j.beaches.length){console.error('Could not load shark-data.json; keeping the previous file.');process.exit(1);}
@@ -23,6 +23,7 @@ async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=awai
   PARK={};PRIV={};j.beaches.forEach(b=>{var k=b.name+', '+b.state;if(b.noDrones)PARK[k]=b.noDrones;if(b.privateLaunch)PRIV[k]=1;});
   if(!Object.keys(PARK).length){console.error('No no-drone parks in shark-data.json (old copy?); keeping the previous file.');process.exit(1);}
   if(j.protected)PROT_ST=j.protected;
+  BAIT=j.baitByRegion||{};BAITN={};(j.baitSpecies||[]).forEach(b=>{BAITN[b.code]=b.short||b.name;});
   BAN={};(j.states||[]).forEach(s=>{if(s.drone&&s.drone.status==='ban')BAN[s.ab]=1;});
   console.log('Loaded '+SPOTS.length+' beaches ('+Object.keys(PARK).length+' no-drone parks), '+Object.keys(SPM).length+' species tables; drone bans: '+Object.keys(BAN).join(', '));}
 var PARK={},PRIV={};
@@ -77,10 +78,15 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   /* every species in its water temp range: common/peak (2-3) in list, peak first; occasional (1) in maybe; protected ones in rel */
   var sum=0,got=[],prot=PROT_ALL.concat(PROT_ST[st(s)]||[]);(SPM[rk]||[]).forEach((r,ix)=>{var l=lv(r[0],s,MO,rk),sp=SPX[r[0]];if(!l||!sp)return;var fit=wt==null||(wt>=sp.t[0]&&wt<=sp.t[1]);if(!fit)return;sum+=l===3?3:l===2?2:0.5;got.push({n:sp.n,l:l,ix:ix,p:prot.indexOf(r[0])>=0});});
   got.sort((a,b)=>b.l-a.l||a.ix-b.ix);var list=got.filter(g=>g.l>=2).map(g=>g.n),maybe=got.filter(g=>g.l===1).map(g=>g.n),rel=got.filter(g=>g.p).map(g=>g.n);
-  b.sharks=Math.round(25*Math.min(1,sum/10));
+  /* bait running (baitByRegion): sharks 15 + bait 10 when bait data exists, else the old sharks 25. Bait is scaled by the temp score, so bait in cold water adds little. */
+  var bt=BAIT[rk]||BAIT[st(s)],bsum=0,blist=[];
+  if(bt){bt.forEach((r,ix)=>{var l=+r[1].charAt(MO);if(!l)return;bsum+=l===3?3:l===2?2:0.5;if(l>=2)blist.push({n:BAITN[r[0]]||r[0],l:l,ix:ix});});
+    blist.sort((a,c)=>c.l-a.l||a.ix-c.ix);
+    b.sharks=Math.round(15*Math.min(1,sum/10));b.bait=Math.round(10*Math.min(1,bsum/8)*b.temp/20);}
+  else b.sharks=Math.round(25*Math.min(1,sum/10));
   var d=dp?dp.d10:'';b.deep=dp&&dp.c==='i'?12:!d?7:d.charAt(0)==='+'||+d>800?2:+d<=150?15:Math.round(15-10*Math.min(1,(+d-150)/450));
   b.front=w&&w.front?5:0;
-  return {b:b,tot:b.wind+b.waves+b.temp+b.sharks+b.deep+b.front,list:list,maybe:maybe,rel:rel};}
+  return {b:b,tot:b.wind+b.waves+b.temp+b.sharks+(b.bait||0)+b.deep+b.front,list:list,maybe:maybe,rel:rel,bait:blist.map(x=>[x.n,x.l])};}
 (async function(){
   await loadShared();
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
@@ -99,7 +105,7 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
     var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
