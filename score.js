@@ -92,7 +92,9 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
   var [B,S,M]=await Promise.all([buoys(),sat(),ww3()]);
   /* if NOAA buoys or satellite are down, reuse the last good surf / water temp (up to 12 hours old) instead of scoring blind */
-  var PREV={},PREV_ENV=null;try{var lg=JSON.parse(fs.readFileSync('data/last-good-readings.json','utf8'));PREV_ENV=lg.at;if(Date.now()-new Date(lg.at).getTime()<12*36e5)PREV=lg.beaches||{};}catch(e){}
+  var PREV={},PREV_ENV=null,LGALL={},NOW=Date.now(),FRESH=t=>t&&NOW-new Date(t).getTime()<12*36e5;try{var lg=JSON.parse(fs.readFileSync('data/last-good-readings.json','utf8'));PREV_ENV=lg.at;LGALL=lg.beaches||{};
+    /* per beach and per reading: a value counts as last good for 12 h from when it was measured (older files have no per-beach times, so they use the file time) */
+    for(var k in LGALL){var e=LGALL[k],v={};if(e.wv!=null&&FRESH(e.wvAt||lg.at))v.wv=e.wv;if(e.wt!=null&&FRESH(e.wtAt||lg.at))v.wt=e.wt;PREV[k]=v;}}catch(e){}
   var noWave=!B.some(p=>p.wv!=null&&!isNaN(p.wv)),noTemp=!B.some(p=>p.wt!=null&&!isNaN(p.wt))&&!S.length;
   if(noWave||noTemp)console.log('NOAA data missing (waves: '+(noWave?'no':'ok')+', water temp: '+(noTemp?'no':'ok')+'); reusing last good values for '+Object.keys(PREV).length+' beaches');
   var W=new Array(SPOTS.length),i=0,fails=0;
@@ -104,21 +106,24 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
     if(!bt&&near(B,s[1],s[2],40,p=>p.wt!=null&&!isNaN(p.wt)))nSkip++;
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
-    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,
+    var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;var pv=PREV[s[0]]||{},wvOld=false,wtOld=false;if(wv==null&&pv.wv!=null){wv=pv.wv;wvOld=true;}if(wt==null&&pv.wt!=null){wt=pv.wt;wtOld=true;}var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
   var CST={};try{CST=JSON.parse(fs.readFileSync('data/clarity-state.json','utf8'));}catch(e){}
   var nowMs=Date.now(),cN=0;
-  R.forEach((r,i)=>{try{var c=updateClarity(CST,r.name,CLB[i],{waveFt:r.wv,periodS:r.wp,windMph:r.w?r.w.avg:null,windDir:r.w?r.w.dir:null},nowMs,r.wv!=null&&!noWave);
+  R.forEach((r,i)=>{try{var c=updateClarity(CST,r.name,CLB[i],{waveFt:r.wv,periodS:r.wp,windMph:r.w?r.w.avg:null,windDir:r.w?r.w.dir:null},nowMs,r.wv!=null&&!r.wvOld&&!noWave);
     r.clarity=c?{rating:c.rating,vis:c.vis,why:c.why}:null;if(c)cN++;}catch(e){r.clarity=null;}});
   console.log('Clarity outlook: '+cN+' of '+R.length+' beaches');
   if(fails>60){console.error('Too many forecast failures ('+fails+'); keeping the previous file.');process.exit(1);}
   fs.mkdirSync('data',{recursive:true});
   fs.writeFileSync('data/points.json',JSON.stringify(PTS));
   if(!noWave)fs.writeFileSync('data/clarity-state.json',JSON.stringify(CST));
-  if(!noWave&&!noTemp){var LG={};R.forEach(r=>{LG[r.name]={wv:r.wv,wt:r.wt};});fs.writeFileSync('data/last-good-readings.json',JSON.stringify({at:new Date().toISOString(),beaches:LG}));}
+  /* keep each beach's newest real reading; a beach that came back empty (or only had a reused value) keeps its earlier reading and time */
+  {var nowIso=new Date().toISOString(),LG={};R.forEach(r=>{var e=LGALL[r.name]||{},o={wv:e.wv,wvAt:e.wvAt||PREV_ENV,wt:e.wt,wtAt:e.wtAt||PREV_ENV};
+    if(r.wv!=null&&!r.wvOld){o.wv=r.wv;o.wvAt=nowIso;}if(r.wt!=null&&r.tsrc!=='last good reading'){o.wt=r.wt;o.wtAt=nowIso;}LG[r.name]=o;});
+   fs.writeFileSync('data/last-good-readings.json',JSON.stringify({at:nowIso,beaches:LG}));}
   fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),envUpdated:(noWave||noTemp)?PREV_ENV:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
   /* the SharkLeash Drop Score shows out of 100; ties at 100 are ranked by the raw total (a front adds up to 5 on top) */
   var top=R.filter(r=>!r.flag).sort((a,b)=>b.raw-a.raw).slice(0,5);
