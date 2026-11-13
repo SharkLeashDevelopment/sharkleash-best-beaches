@@ -22,6 +22,7 @@ async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=awai
   CLB=j.beaches.map(b=>({faces:b.faces,clarityBase:b.clarityBase||0}));
   PARK={};PRIV={};j.beaches.forEach(b=>{var k=b.name+', '+b.state;if(b.noDrones)PARK[k]=b.noDrones;if(b.privateLaunch)PRIV[k]=1;});
   if(!Object.keys(PARK).length){console.error('No no-drone parks in shark-data.json (old copy?); keeping the previous file.');process.exit(1);}
+  if(j.protected)PROT_ST=j.protected;
   BAN={};(j.states||[]).forEach(s=>{if(s.drone&&s.drone.status==='ban')BAN[s.ab]=1;});
   console.log('Loaded '+SPOTS.length+' beaches ('+Object.keys(PARK).length+' no-drone parks), '+Object.keys(SPM).length+' species tables; drone bans: '+Object.keys(BAN).join(', '));}
 var PARK={},PRIV={};
@@ -73,11 +74,13 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
   var v=w?w.avg:null;b.wind=v===null?10:v<5?10+3*v:v<=12?25:v>=29?0:Math.round(25*(29-v)/17);
   b.waves=wv==null?8:wv<1?9:wv<=3?15:wv<=5?Math.round(15-5*(wv-3)):wv<=6?3:0;
   b.temp=wt==null?8:(wt>=66&&wt<=82)?20:Math.max(0,Math.round(20-2*(wt<66?66-wt:wt-82)));
-  var sum=0,list=[];(SPM[rk]||[]).forEach(r=>{var l=lv(r[0],s,MO,rk),sp=SPX[r[0]];if(!l||!sp)return;var fit=wt==null||(wt>=sp.t[0]&&wt<=sp.t[1]);if(!fit)return;sum+=l===3?3:l===2?2:0.5;if(l>=2)list.push(sp.n);});
+  /* every species in its water temp range: common/peak (2-3) in list, peak first; occasional (1) in maybe; protected ones in rel */
+  var sum=0,got=[],prot=PROT_ALL.concat(PROT_ST[st(s)]||[]);(SPM[rk]||[]).forEach((r,ix)=>{var l=lv(r[0],s,MO,rk),sp=SPX[r[0]];if(!l||!sp)return;var fit=wt==null||(wt>=sp.t[0]&&wt<=sp.t[1]);if(!fit)return;sum+=l===3?3:l===2?2:0.5;got.push({n:sp.n,l:l,ix:ix,p:prot.indexOf(r[0])>=0});});
+  got.sort((a,b)=>b.l-a.l||a.ix-b.ix);var list=got.filter(g=>g.l>=2).map(g=>g.n),maybe=got.filter(g=>g.l===1).map(g=>g.n),rel=got.filter(g=>g.p).map(g=>g.n);
   b.sharks=Math.round(25*Math.min(1,sum/10));
   var d=dp?dp.d10:'';b.deep=dp&&dp.c==='i'?12:!d?7:d.charAt(0)==='+'||+d>800?2:+d<=150?15:Math.round(15-10*Math.min(1,(+d-150)/450));
   b.front=w&&w.front?5:0;
-  return {b:b,tot:b.wind+b.waves+b.temp+b.sharks+b.deep+b.front,list:list};}
+  return {b:b,tot:b.wind+b.waves+b.temp+b.sharks+b.deep+b.front,list:list,maybe:maybe,rel:rel};}
 (async function(){
   await loadShared();
   var MO=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:TZ}).format(new Date())-1;
@@ -96,7 +99,7 @@ function score(s,w,wv,wt,dp,MO,rk){var b={};rk=rk||st(s);
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
     var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;if(wv==null&&noWave&&PREV[s[0]])wv=PREV[s[0]].wv;if(wt==null&&noTemp&&PREV[s[0]])wt=PREV[s[0]].wt;var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':null,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
