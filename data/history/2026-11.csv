@@ -1,238 +1,238 @@
 date,beach,score,raw,wind_mph,wind_dir,front,waves_ft,water_f,clarity,tide_high,pts_wind,pts_waves,pts_temp,pts_sharks,pts_bait,pts_deep,pts_front,pts_tide,sharks_running,bait_running,flagged,run_utc
-2026-11-17,"Sand Beach (Acadia), ME",61,61,10,W,0,2.3,51,clean,2026-11-17T21:09:00.000Z,25,15,0,1,0,15,0,5,,,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Reid State Park, ME",61,61,5,SW,0,1.3,51,clean,2026-11-17T21:45:00.000Z,25,15,0,1,0,15,0,5,,,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Popham Beach, ME",48,48,6,SW,0,1.3,51,clean,2026-11-17T21:45:00.000Z,25,15,0,1,0,2,0,5,,,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Higgins Beach, ME",58,58,5,SW,0,1.3,51,clean,2026-11-17T21:40:00.000Z,25,15,0,1,0,12,0,5,,,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Old Orchard Beach, ME",57,57,5,SW,0,1.0,51,clean,2026-11-17T21:40:00.000Z,25,15,0,1,0,11,0,5,,,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Ogunquit, ME",56,56,5,W,0,1.3,52,clean,2026-11-17T21:36:00.000Z,25,15,0,1,0,10,0,5,,,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Rye Harbor, NH",57,57,5,W,0,1.3,51,clean,2026-11-17T21:50:00.000Z,25,15,0,1,0,11,0,5,,,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Hampton Beach, NH",58,58,5,W,0,1.3,48,clean,2026-11-17T21:46:00.000Z,25,15,0,1,0,12,0,5,,,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Salisbury Beach, MA",60,60,8,W,0,1.3,48,clean,2026-11-17T21:46:00.000Z,25,15,0,3,0,12,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Plum Island, MA",63,63,8,W,0,1.3,48,clean,2026-11-17T22:03:00.000Z,25,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Nantasket Beach, MA",58,58,8,W,0,1.6,53,clean,2026-11-17T21:44:00.000Z,25,15,0,3,0,10,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Duxbury Beach, MA",58,58,10,W,0,1.6,54,clean,2026-11-17T21:56:00.000Z,25,15,0,3,0,10,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Race Point, MA",60,60,14,W,0,1.9,53,stained,2026-11-17T21:57:00.000Z,22,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Nauset Beach, MA",63,63,10,W,0,1.9,53,clean,2026-11-17T22:30:00.000Z,25,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Sandy Neck, MA",63,63,8,W,0,1.6,54,clean,2026-11-17T21:57:00.000Z,25,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Chatham, MA",60,60,9,W,0,1.0,52,clean,2026-11-17T22:30:00.000Z,25,15,0,3,0,12,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Horseneck Beach, MA",52,52,9,W,0,1.0,56,clean,,25,9,0,3,0,15,0,0,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Great Point (Nantucket), MA",60,60,14,W,0,1.6,52,clean,2026-11-17T22:29:00.000Z,22,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Wasque (Martha's Vineyard), MA",54,54,12,W,0,1.0,49,clean,2026-11-17T22:55:00.000Z,25,9,0,3,0,12,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Narragansett, RI",52,52,10,W,0,1.0,56,clean,,25,9,0,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"East Matunuck, RI",46,46,9,W,0,1.0,55,clean,,25,9,0,3,0,9,0,0,Spiny dogfish,Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Charlestown Breachway, RI",54,54,11,W,0,1.0,57,clean,,25,9,2,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Misquamicut, RI",52,52,8,W,0,1.0,54,clean,,25,9,0,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Block Island (Crescent Beach), RI",57,57,14,W,0,2.0,57,clean,,22,15,2,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ocean Beach Park, CT",58,58,9,W,0,1.1,54,clean,,25,15,0,3,0,15,0,0,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Hammonasset, CT",64,64,6,W,0,1.1,57,clean,2026-11-17T21:53:00.000Z,25,15,1,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Silver Sands, CT",47,47,6,W,0,,53,,2026-11-17T21:45:00.000Z,25,8,0,3,0,6,0,5,Spiny dogfish,Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Montauk, NY",59,59,13,W,0,2.0,57,clean,,24,15,2,2,1,15,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Shinnecock Inlet, NY",59,59,7,W,0,2.0,58,clean,,25,15,3,2,2,12,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Moriches Inlet, NY",53,53,10,W,0,1.3,49,clean,,25,15,0,1,0,12,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Smith Point, NY",56,56,10,W,0,1.3,49,clean,,25,15,0,1,0,15,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Robert Moses SP, NY",52,52,11,W,0,1.3,49,clean,,25,15,0,1,0,11,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Long Beach, NY",64,64,8,W,0,1.3,59,clean,,25,15,5,2,3,14,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Jones Beach, NY",65,65,9,W,0,1.3,59,clean,,25,15,5,2,3,15,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Rockaway Beach, NY",63,63,10,W,0,1.3,59,clean,,25,15,5,2,3,13,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Tilden, NY",63,63,11,W,0,1.3,59,clean,,25,15,5,2,3,13,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Breezy Point, NY",62,62,11,W,0,1.3,59,clean,,25,15,5,2,3,12,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Sandy Hook, NJ",68,68,10,W,0,1.3,59,clean,,25,15,5,5,3,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Asbury Park, NJ",68,68,5,W,0,1.3,59,clean,,25,15,5,5,3,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Manasquan Inlet, NJ",60,60,5,W,0,1.3,56,clean,,25,15,0,5,0,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Point Pleasant Beach, NJ",63,63,5,W,0,1.3,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Seaside Heights, NJ",73,73,6,W,0,1.3,59,clean,2026-11-17T21:43:00.000Z,25,15,5,5,3,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Island Beach SP, NJ",73,73,10,W,0,1.3,59,clean,2026-11-17T21:07:00.000Z,25,15,5,5,3,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Barnegat Light, NJ",67,67,10,W,0,1.3,59,clean,,25,15,5,5,3,14,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Beach Haven (LBI), NJ",62,62,10,W,0,1.3,57,clean,,25,15,1,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Holgate (LBI), NJ",62,62,10,W,0,1.3,57,clean,,25,15,1,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Brigantine, NJ",61,61,5,W,0,1.3,56,clean,,25,15,1,5,1,14,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Atlantic City, NJ",56,56,5,W,0,1.3,53,clean,,25,15,0,4,0,12,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Ocean City, NJ",59,59,5,W,0,1.9,57,clean,,25,15,1,5,1,12,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Sea Isle City, NJ",61,61,5,W,0,1.6,57,clean,,25,15,1,5,1,14,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Avalon, NJ",64,64,6,W,0,1.6,58,clean,,25,15,4,5,2,13,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Wildwood, NJ",47,47,5,W,0,1.6,56,clean,,25,15,0,5,0,2,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Cape May, NJ",60,60,7,NW,0,1.6,56,clean,,25,15,0,5,0,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Cape Henlopen, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Rehoboth Beach, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Dewey Beach, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Indian River Inlet, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Bethany Beach, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fenwick Island, DE",68,68,5,NW,0,1.6,57,clean,2026-11-17T22:07:00.000Z,25,15,2,5,1,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ocean City, MD",62,62,5,NW,0,1.6,57,clean,,25,15,2,4,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Assateague, MD",67,67,6,NW,0,1.6,57,clean,2026-11-17T23:23:00.000Z,25,15,2,4,1,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Chincoteague, VA",53,53,6,NW,0,1.6,57,clean,,25,15,3,2,2,6,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Buckroe Beach, VA",54,54,4,NE,0,1.0,58,clean,,22,9,4,2,2,15,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ocean View (Norfolk), VA",51,51,5,N,0,1.0,58,clean,,25,9,4,2,2,9,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Virginia Beach Oceanfront, VA",69,69,5,N,0,2.3,60,clean,,25,15,8,2,4,15,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Sandbridge, VA",69,69,6,N,0,2.3,60,clean,,25,15,8,2,4,15,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"False Cape, VA",65,65,7,N,0,2.3,60,clean,,25,15,8,2,4,11,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Corolla, NC",69,69,8,N,0,2.6,60,stained,,25,15,7,5,4,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Duck, NC",67,67,8,N,0,2.6,60,clean,,25,15,7,5,4,11,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Kill Devil Hills, NC",69,69,8,N,0,2.6,60,stained,,25,15,7,5,4,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Nags Head, NC",73,73,9,N,0,3.3,61,stained,,25,14,10,5,5,14,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Oregon Inlet, NC",73,73,12,N,0,3.3,61,stained,,25,14,11,5,6,12,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Rodanthe, NC",79,79,12,N,0,3.3,61,stained,2026-11-17T21:12:00.000Z,25,14,11,5,6,13,0,5,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Avon, NC",81,81,12,N,0,3.9,64,stained,2026-11-17T21:41:00.000Z,25,10,16,3,8,14,0,5,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Buxton, NC",74,74,11,N,0,3.9,64,stained,,25,10,16,3,8,12,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Frisco, NC",72,72,10,N,0,3.9,64,stained,,25,10,16,3,8,10,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Cape Hatteras, NC",74,74,11,N,0,3.9,64,stained,,25,10,16,3,8,12,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Ocracoke, NC",53,53,12,N,0,3.9,53,stained,,25,10,0,4,0,14,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Cape Lookout, NC",74,74,17,N,0,4.3,65,stained,,18,9,19,3,10,15,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Atlantic Beach, NC",81,81,9,NE,0,4.3,66,stained,,25,9,20,4,10,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Pine Knoll Shores, NC",81,81,9,NE,0,4.3,66,stained,,25,9,20,4,10,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Emerald Isle, NC",77,77,9,NE,0,4.3,65,stained,,25,9,18,3,9,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"North Topsail Beach, NC",83,83,12,NE,0,3.3,65,stained,,25,14,18,3,9,14,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Topsail Beach, NC",82,82,9,NE,0,3.3,65,clean,,25,14,18,3,9,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Surf City, NC",83,83,8,NE,0,3.3,65,clean,,25,14,18,3,9,14,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Wrightsville Beach, NC",83,83,13,NE,0,3.3,65,stained,,24,14,18,3,9,15,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Carolina Beach, NC",81,81,10,NE,0,3.3,65,stained,,25,14,18,3,9,12,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Kure Beach, NC",83,83,13,NE,0,3.3,65,stained,,24,14,18,3,9,15,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Fisher, NC",76,76,13,NE,0,3.3,63,stained,,24,14,15,6,8,9,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Bald Head Island, NC",77,77,16,NE,0,3.3,63,stained,,19,14,15,6,8,15,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Caswell Beach, NC",72,72,13,NE,0,3.3,63,stained,,24,14,15,6,8,5,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Holden Beach, NC",81,81,11,NE,0,3.3,63,clean,,25,14,15,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Oak Island, NC",81,81,11,NE,0,3.3,63,clean,,25,14,15,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ocean Isle Beach, NC",81,81,7,NE,0,3.3,64,clean,,25,14,17,3,9,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Sunset Beach, NC",81,81,10,NE,0,3.3,64,stained,,25,14,15,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"North Myrtle Beach, SC",72,72,7,NE,0,3.3,62,stained,,25,14,11,2,6,14,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Myrtle Beach, SC",74,74,12,NE,0,2.4,62,clean,,25,15,11,2,6,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Surfside Beach, SC",73,73,13,NE,0,2.4,62,clean,,24,15,11,2,6,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Garden City Beach, SC",67,67,9,NE,0,,62,,,25,8,11,2,6,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Huntington Beach State Park, SC",64,64,11,NE,0,,62,,,25,8,11,2,6,12,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Litchfield Beach, SC",63,63,15,NE,0,,62,,,21,8,11,2,6,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Pawleys Island, SC",73,73,9,NE,0,2.4,62,clean,,25,15,11,2,6,14,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Isle of Palms, SC",70,70,13,NE,0,3.9,64,clean,,24,10,16,2,8,10,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Sullivan's Island, SC",70,70,16,NE,0,3.9,64,clean,,19,10,16,2,8,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Folly Beach, SC",60,60,22,NE,0,5.6,68,stained,,10,3,20,7,10,10,0,0,Atlantic sharpnose,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Kiawah Island, SC",58,58,18,NE,0,5.6,66,stained,,16,3,19,2,10,8,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Edisto Beach, SC",47,47,22,NE,0,5.6,64,stained,,10,3,17,2,9,6,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Hunting Island, SC",52,52,16,NE,0,5.6,64,stained,,19,3,17,2,9,2,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Hilton Head, SC",49,49,17,NE,0,5.6,64,stained,,18,3,16,2,8,2,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Tybee Island, GA",36,36,27,NE,0,5.6,65,stained,,3,3,17,2,9,2,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"St. Simons Island, GA",40,40,25,NE,0,6.2,66,dirty,,6,0,20,5,10,2,0,0,Atlantic sharpnose,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Jekyll Island, GA",47,47,24,NE,0,6.2,68,dirty,,7,0,20,8,10,2,0,0,Atlantic sharpnose; Bonnethead,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Cumberland Island, GA",68,68,19,NE,0,6.2,68,dirty,,15,0,20,8,10,15,0,0,Atlantic sharpnose; Bonnethead,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Amelia Island, FL",65,65,23,NE,0,6.2,68,dirty,,9,0,20,14,10,12,0,0,Blacktip; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Little Talbot Island, FL",66,66,24,NE,0,6.2,68,dirty,,7,0,20,14,10,15,0,0,Blacktip; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Jacksonville Beach, FL",40,40,25,NE,0,6.2,69,dirty,,6,0,20,14,10,12,0,0,Blacktip; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ponte Vedra Beach, FL",40,40,27,NE,0,6.2,72,dirty,,3,0,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Vilano Beach, FL",62,62,22,NE,0,6.2,72,dirty,,10,0,20,15,10,7,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"St. Augustine Beach, FL",40,40,25,NE,0,6.2,72,dirty,,6,0,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Crescent Beach, FL",68,68,,,0,6.2,72,dirty,,10,0,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Matanzas Inlet, FL",70,70,22,E,0,6.2,72,dirty,,10,0,20,15,10,15,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Flagler Beach, FL",72,72,24,E,0,6.2,74,dirty,2026-11-17T23:38:00.000Z,7,0,20,15,10,15,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ormond Beach, FL",40,40,26,E,0,6.2,74,dirty,2026-11-17T22:22:00.000Z,4,0,20,15,10,12,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Daytona Beach, FL",77,77,18,E,0,6.2,74,dirty,2026-11-17T22:22:00.000Z,16,0,20,15,10,11,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Ponce Inlet, FL",66,66,23,E,0,6.2,74,dirty,,9,0,20,15,10,12,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"New Smyrna Beach, FL",76,76,16,E,0,6.2,74,dirty,,19,0,20,15,10,12,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Playalinda Beach, FL",75,75,20,E,0,5.6,73,dirty,,13,3,20,15,10,14,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Cocoa Beach, FL",40,40,25,E,0,5.6,73,dirty,,6,3,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Satellite Beach, FL",40,40,25,E,0,5.6,73,dirty,,6,3,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Indialantic, FL",40,40,25,E,0,5.6,73,dirty,2026-11-17T21:53:00.000Z,6,3,20,15,10,13,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Melbourne Beach, FL",40,40,30,E,0,5.6,73,dirty,2026-11-17T21:53:00.000Z,0,3,20,15,10,14,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Sebastian Inlet, FL",72,72,20,E,0,7.9,77,dirty,,13,0,20,15,10,14,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Vero Beach, FL",40,40,25,E,0,7.9,77,dirty,2026-11-17T22:19:00.000Z,6,0,20,15,10,12,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Pierce, FL",40,40,26,E,0,7.9,77,dirty,,4,0,20,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Hutchinson Island, FL",77,77,16,E,0,7.9,77,dirty,,19,0,20,15,10,13,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Jensen Beach, FL",40,40,28,E,0,7.9,77,dirty,,1,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Stuart Beach, FL",40,40,29,E,0,7.9,77,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Hobe Sound Beach, FL",40,40,25,E,0,7.9,83,dirty,,6,0,19,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Jupiter Inlet, FL",40,40,27,E,0,7.9,80,dirty,,3,0,20,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Juno Beach, FL",76,76,18,E,0,7.9,80,dirty,,16,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Singer Island, FL",79,79,20,E,0,,80,,,13,8,20,15,10,13,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Palm Beach, FL",40,40,33,E,0,6.6,80,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Lake Worth Beach, FL",40,40,35,E,0,6.6,80,dirty,,0,0,20,15,10,13,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Delray Beach, FL",40,40,31,E,0,6.6,80,dirty,,0,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Boca Raton, FL",40,40,33,E,0,6.6,81,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Deerfield Beach, FL",40,40,33,E,0,6.6,81,dirty,,0,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Pompano Beach, FL",40,40,34,E,0,6.6,81,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Lauderdale, FL",40,40,31,E,0,6.6,81,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Hollywood Beach, FL",40,40,32,E,0,6.6,81,dirty,,0,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Haulover, FL",40,40,26,E,0,6.6,81,dirty,,4,0,20,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Miami Beach, FL",69,69,23,E,0,6.6,81,dirty,,9,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Key Biscayne, FL",40,40,28,E,0,6.6,81,dirty,,1,0,20,15,10,6,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Islamorada, FL",70,70,20,E,0,5.0,82,stained,2026-11-17T21:48:00.000Z,13,5,20,15,10,2,0,5,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Marathon, FL",79,79,18,E,0,4.4,75,stained,2026-11-18T02:30:00.000Z,16,8,20,15,10,5,0,5,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Bahia Honda, FL",77,77,20,E,0,3.9,82,stained,,13,10,20,15,10,9,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Key West, FL",73,73,20,E,0,3.9,82,stained,,13,10,20,15,10,5,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Perdido Key, FL",40,40,25,NE,0,6.6,71,stained,,6,0,20,3,10,14,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Pensacola Beach, FL",40,40,25,E,0,7.9,73,stained,,6,0,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Opal Beach (Santa Rosa Island), FL",61,61,19,E,0,7.9,73,stained,,15,0,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Pickens, FL",40,40,25,NE,0,7.9,71,dirty,,6,0,20,3,10,12,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Navarre Beach, FL",65,65,17,NE,0,7.9,73,stained,,18,0,20,3,10,14,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Okaloosa Island, FL",58,58,24,NE,0,5.0,73,clean,,7,5,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Destin, FL",66,66,20,NE,0,5.0,73,clean,,13,5,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Walton County beaches, FL",72,72,15,ENE,0,5.0,72,clean,,21,5,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Panama City Beach, FL",76,76,20,ENE,0,2.9,73,clean,,13,15,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Mexico Beach, FL",61,61,20,ENE,0,6.9,72,stained,,13,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Cape San Blas, FL",40,40,27,ENE,0,6.9,73,stained,,3,0,20,3,10,6,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"St. George Island, FL",40,40,30,ENE,0,5.9,72,stained,,0,3,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"St. Joseph Peninsula, FL",58,58,,,0,6.9,72,stained,,10,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Indian Pass, FL",56,56,20,ENE,0,6.9,72,stained,,13,0,20,3,10,10,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Alligator Point, FL",63,63,16,NE,0,0.9,70,clean,,19,9,20,3,10,2,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Anna Maria Island, FL",85,85,22,ENE,0,2.6,71,clean,,10,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Longboat Key, FL",81,81,24,ENE,0,2.6,71,clean,,7,15,20,15,10,14,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Lido Key, FL",87,87,21,ENE,0,2.6,76,clean,,12,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Honeymoon Island, FL",77,77,22,ENE,0,2.6,73,clean,,10,15,20,15,10,7,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Clearwater Beach, FL",85,85,14,ENE,0,2.6,68,clean,,22,15,20,4,10,14,0,0,Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Belleair Shore, FL",87,87,21,ENE,0,2.6,71,clean,,12,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Indian Rocks Beach, FL",82,82,24,ENE,0,2.6,71,clean,,7,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Indian Shores, FL",93,93,17,ENE,0,2.6,71,clean,,18,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Redington Shores, FL",40,40,25,ENE,0,2.6,71,clean,,6,15,20,15,10,13,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Madeira Beach, FL",86,86,21,E,0,2.6,71,clean,,12,15,20,15,10,14,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Treasure Island, FL",93,93,17,E,0,2.6,71,clean,,18,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T19:58:14.177Z
-2026-11-17,"St. Pete Beach, FL",82,82,24,ENE,0,2.6,71,clean,,7,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort De Soto, FL",40,40,28,ENE,0,2.6,71,clean,,1,15,20,15,10,11,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Siesta Key, FL",84,84,21,ENE,0,2.6,76,clean,,12,15,20,15,10,12,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Casey Key, FL",40,40,25,ENE,0,2.6,76,clean,,6,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Venice, FL",93,93,17,ENE,0,2.6,77,clean,,18,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Manasota Key, FL",40,40,25,ENE,0,,76,,,6,8,20,15,10,13,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Boca Grande, FL",40,40,25,ENE,0,1.9,76,clean,,6,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Captiva, FL",40,40,27,E,0,,77,,,3,8,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Sanibel, FL",80,80,22,E,0,1.2,77,clean,,10,15,20,15,10,10,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Myers Beach, FL",82,82,18,E,0,1.2,77,clean,,16,15,20,15,10,6,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Bonita Beach, FL",85,85,17,E,0,,77,,,18,8,20,15,10,14,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Naples, FL",96,96,15,E,0,1.7,77,clean,,21,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Marco Island, FL",93,93,15,E,0,1.7,77,clean,,21,15,20,15,10,12,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Dauphin Island, AL",58,58,20,NE,0,6.6,71,stained,,13,0,20,3,10,12,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fort Morgan, AL",61,61,20,NE,0,6.6,71,stained,,13,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Gulf Shores public beach, AL",40,40,25,NE,0,6.6,71,stained,,6,0,20,3,10,13,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Gulf State Park, AL",67,67,16,NE,0,6.6,71,stained,,19,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Orange Beach, AL",48,48,21,NE,0,6.6,63,stained,,12,0,14,0,7,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Ship Island, MS",47,47,,,0,6.6,70,stained,,10,0,20,2,10,5,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Horn Island, MS",58,58,,,0,6.6,71,stained,,10,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Petit Bois Island, MS",58,58,,,0,6.6,71,stained,,10,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Cat Island, MS",39,39,,,0,1.6,59,clean,,10,15,5,0,3,6,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Bay St. Louis, MS",40,40,19,NE,0,1.6,59,stained,,15,15,5,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Pass Christian, MS",35,35,,,0,1.6,59,stained,,10,15,5,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Long Beach, MS",44,44,16,NE,0,1.6,59,stained,,19,15,5,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Biloxi beach, MS",38,38,20,NE,0,1.6,59,dirty,,13,15,5,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Grand Isle, LA",40,40,30,NE,0,5.2,73,stained,,0,3,20,5,10,10,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Elmer's Island, LA",40,40,30,NE,0,5.2,73,stained,,0,3,20,5,10,5,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Fourchon Beach, LA",40,40,25,NE,0,5.2,74,stained,,6,3,20,5,10,15,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Holly Beach, LA",72,72,15,NE,0,3.2,74,stained,,21,14,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Constance Beach, LA",72,72,15,NE,0,3.2,74,stained,,21,14,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Rutherford Beach, LA",73,73,15,NE,0,3.0,74,stained,,21,15,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Isles Dernieres, LA",57,57,,,0,4.0,73,stained,,10,10,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Sea Rim State Park, TX",77,77,10,NE,0,4.3,74,dirty,,25,9,20,11,10,2,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Crystal Beach (Bolivar), TX",84,84,11,NE,0,4.3,70,dirty,,25,9,20,11,10,9,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Galveston, TX",82,82,14,NE,0,4.3,70,dirty,,22,9,20,11,10,10,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Jamaica Beach, TX",82,82,13,NE,0,4.3,75,stained,,24,9,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"San Luis Pass, TX",67,67,13,NE,0,4.3,62,dirty,,24,9,12,3,6,13,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Follets Island, TX",56,56,13,NE,0,4.3,62,stained,,24,9,12,3,6,2,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Quintana Beach, TX",69,69,10,NE,0,3.6,64,dirty,,25,12,16,3,8,5,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Bryan Beach, TX",78,78,13,NE,0,,76,,,24,8,20,11,10,5,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Surfside Beach, TX",74,74,11,NE,0,3.6,64,dirty,,25,12,16,3,8,10,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Sargent Beach, TX",73,73,10,NE,0,5.0,77,dirty,,25,5,20,11,10,2,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Matagorda Beach, TX",90,90,14,NE,0,3.6,76,stained,,22,12,20,11,10,15,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Port Aransas, TX",76,76,13,NNE,0,5.6,76,dirty,,24,3,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Mustang Island State Park, TX",75,75,14,NNE,0,5.6,76,dirty,,22,3,20,11,10,9,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Bob Hall Pier / North Padre, TX",78,78,13,NNE,0,5.6,76,dirty,,24,3,20,11,10,10,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Padre Island NS, TX",77,77,13,NNE,0,5.6,76,dirty,,24,3,20,11,10,9,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Padre Island NS – Mile 5, TX",76,76,13,NNE,0,5.6,76,dirty,,24,3,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Padre Island NS – Mile 15, TX",80,80,11,NNE,0,5.6,75,dirty,,25,3,20,11,10,11,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Padre Island NS – Mile 30 (Big Shell), TX",74,74,10,NNE,0,7.3,75,dirty,,25,0,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Padre Island NS – Mile 45, TX",79,79,10,NNE,0,7.3,75,dirty,,25,0,20,11,10,13,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"Padre Island NS – Mile 55, TX",76,76,14,N,0,7.0,75,dirty,,22,0,20,11,10,13,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T19:58:14.177Z
-2026-11-17,"South Padre Island, TX",74,74,15,N,0,6.9,76,dirty,,21,0,20,11,10,12,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
-2026-11-17,"Boca Chica Beach, TX",78,78,12,N,0,6.9,77,dirty,,25,0,20,11,10,12,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T19:58:14.177Z
+2026-11-17,"Sand Beach (Acadia), ME",61,61,9,W,0,2.3,51,clean,2026-11-17T21:09:00.000Z,25,15,0,1,0,15,0,5,,,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Reid State Park, ME",61,61,5,SW,0,2.0,51,clean,2026-11-17T21:45:00.000Z,25,15,0,1,0,15,0,5,,,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Popham Beach, ME",48,48,6,SW,0,2.0,51,clean,2026-11-17T21:45:00.000Z,25,15,0,1,0,2,0,5,,,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Higgins Beach, ME",52,52,5,SW,0,0.7,51,clean,2026-11-17T21:40:00.000Z,25,9,0,1,0,12,0,5,,,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Old Orchard Beach, ME",51,51,5,SW,0,0.7,51,clean,2026-11-17T21:40:00.000Z,25,9,0,1,0,11,0,5,,,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Ogunquit, ME",50,50,5,W,0,0.7,52,clean,2026-11-17T21:36:00.000Z,25,9,0,1,0,10,0,5,,,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Rye Harbor, NH",51,51,5,W,0,0.7,51,clean,2026-11-17T21:50:00.000Z,25,9,0,1,0,11,0,5,,,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Hampton Beach, NH",52,52,5,W,0,0.7,47,clean,2026-11-17T21:46:00.000Z,25,9,0,1,0,12,0,5,,,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Salisbury Beach, MA",54,54,8,W,0,0.7,47,clean,2026-11-17T21:46:00.000Z,25,9,0,3,0,12,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Plum Island, MA",63,63,8,W,0,1.3,52,clean,2026-11-17T22:03:00.000Z,25,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Nantasket Beach, MA",58,58,8,W,0,1.3,53,clean,2026-11-17T21:44:00.000Z,25,15,0,3,0,10,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Duxbury Beach, MA",58,58,10,W,0,1.3,54,clean,2026-11-17T21:56:00.000Z,25,15,0,3,0,10,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Race Point, MA",60,60,14,W,0,1.9,53,stained,2026-11-17T21:57:00.000Z,22,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Nauset Beach, MA",63,63,10,W,0,1.9,53,clean,2026-11-17T22:30:00.000Z,25,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Sandy Neck, MA",63,63,8,W,0,1.3,54,clean,2026-11-17T21:57:00.000Z,25,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Chatham, MA",60,60,9,W,0,1.0,52,clean,2026-11-17T22:30:00.000Z,25,15,0,3,0,12,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Horseneck Beach, MA",52,52,9,W,0,1.0,55,clean,,25,9,0,3,0,15,0,0,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Great Point (Nantucket), MA",60,60,14,W,0,1.3,52,clean,2026-11-17T22:29:00.000Z,22,15,0,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Wasque (Martha's Vineyard), MA",54,54,12,W,0,1.0,50,clean,2026-11-17T22:55:00.000Z,25,9,0,3,0,12,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Narragansett, RI",52,52,10,W,0,1.0,55,clean,,25,9,0,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"East Matunuck, RI",46,46,9,W,0,1.0,55,clean,,25,9,0,3,0,9,0,0,Spiny dogfish,Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Charlestown Breachway, RI",54,54,11,W,0,1.0,57,clean,,25,9,2,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Misquamicut, RI",52,52,8,W,0,1.0,54,clean,,25,9,0,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Block Island (Crescent Beach), RI",57,57,14,W,0,2.3,57,clean,,22,15,2,3,0,15,0,0,Spiny dogfish,Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ocean Beach Park, CT",58,58,9,W,0,1.1,54,clean,,25,15,0,3,0,15,0,0,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Hammonasset, CT",64,64,6,W,0,1.1,57,clean,2026-11-17T21:53:00.000Z,25,15,1,3,0,15,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Silver Sands, CT",47,47,6,W,0,,53,,2026-11-17T21:45:00.000Z,25,8,0,3,0,6,0,5,Spiny dogfish,Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Montauk, NY",59,59,13,W,0,2.3,57,clean,,24,15,2,2,1,15,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Shinnecock Inlet, NY",59,59,7,W,0,2.0,58,clean,,25,15,3,2,2,12,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Moriches Inlet, NY",53,53,10,W,0,1.6,49,clean,,25,15,0,1,0,12,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Smith Point, NY",56,56,10,W,0,1.6,49,clean,,25,15,0,1,0,15,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Robert Moses SP, NY",52,52,11,W,0,1.6,49,clean,,25,15,0,1,0,11,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Long Beach, NY",64,64,8,W,0,1.6,59,clean,,25,15,5,2,3,14,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Jones Beach, NY",65,65,9,W,0,1.6,59,clean,,25,15,5,2,3,15,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Rockaway Beach, NY",63,63,10,W,0,1.6,59,clean,,25,15,5,2,3,13,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Tilden, NY",55,55,11,W,0,1.6,51,clean,,25,15,0,2,0,13,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Breezy Point, NY",62,62,11,W,0,1.6,59,clean,,25,15,5,2,3,12,0,0,,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Sandy Hook, NJ",68,68,10,W,0,1.6,59,clean,,25,15,5,5,3,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Asbury Park, NJ",68,68,5,W,0,1.3,59,clean,,25,15,5,5,3,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Manasquan Inlet, NJ",60,60,5,W,0,1.3,56,clean,,25,15,0,5,0,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Point Pleasant Beach, NJ",63,63,5,W,0,1.3,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Seaside Heights, NJ",73,73,6,W,0,1.3,59,clean,2026-11-17T21:43:00.000Z,25,15,5,5,3,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Island Beach SP, NJ",73,73,10,W,0,1.3,59,clean,2026-11-17T21:07:00.000Z,25,15,5,5,3,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Barnegat Light, NJ",67,67,10,W,0,1.3,59,clean,,25,15,5,5,3,14,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Beach Haven (LBI), NJ",62,62,10,W,0,1.3,57,clean,,25,15,1,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Holgate (LBI), NJ",62,62,10,W,0,1.3,57,clean,,25,15,1,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Brigantine, NJ",61,61,5,W,0,1.3,56,clean,,25,15,1,5,1,14,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Atlantic City, NJ",56,56,5,W,0,1.3,53,clean,,25,15,0,4,0,12,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Ocean City, NJ",59,59,5,W,0,1.9,57,clean,,25,15,1,5,1,12,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Sea Isle City, NJ",61,61,5,W,0,1.6,57,clean,,25,15,1,5,1,14,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Avalon, NJ",64,64,6,W,0,1.6,58,clean,,25,15,4,5,2,13,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Wildwood, NJ",47,47,5,W,0,1.6,56,clean,,25,15,0,5,0,2,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Cape May, NJ",60,60,7,NW,0,1.6,56,clean,,25,15,0,5,0,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Cape Henlopen, DE",59,59,5,NW,0,1.6,51,clean,,25,15,0,4,0,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Rehoboth Beach, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Dewey Beach, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Indian River Inlet, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Bethany Beach, DE",63,63,5,NW,0,1.6,57,clean,,25,15,2,5,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fenwick Island, DE",68,68,5,NW,0,1.6,57,clean,2026-11-17T22:07:00.000Z,25,15,2,5,1,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ocean City, MD",62,62,5,NW,0,1.6,57,clean,,25,15,2,4,1,15,0,0,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Assateague, MD",67,67,6,NW,0,1.6,57,clean,2026-11-17T23:23:00.000Z,25,15,2,4,1,15,0,5,Spiny dogfish,Mullet; Menhaden; Bluefish; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Chincoteague, VA",53,53,6,NW,0,1.6,57,clean,,25,15,3,2,2,6,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Buckroe Beach, VA",54,54,4,NE,0,1.0,58,clean,,22,9,4,2,2,15,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ocean View (Norfolk), VA",51,51,5,N,0,1.0,58,clean,,25,9,4,2,2,9,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Virginia Beach Oceanfront, VA",69,69,5,N,0,2.0,60,clean,,25,15,8,2,4,15,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Sandbridge, VA",69,69,6,N,0,2.0,60,clean,,25,15,8,2,4,15,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"False Cape, VA",65,65,7,N,0,2.0,60,clean,,25,15,8,2,4,11,0,0,,Bluefish; Mullet; Menhaden; Spot; Skates,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Corolla, NC",69,69,8,N,0,2.6,60,stained,,25,15,7,5,4,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Duck, NC",67,67,8,N,0,2.6,60,clean,,25,15,7,5,4,11,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Kill Devil Hills, NC",69,69,8,N,0,2.6,60,stained,,25,15,7,5,4,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Nags Head, NC",73,73,9,N,0,3.3,61,stained,,25,14,10,5,5,14,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Oregon Inlet, NC",71,71,12,N,0,3.6,61,stained,,25,12,11,5,6,12,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Rodanthe, NC",77,77,12,N,0,3.6,61,stained,2026-11-17T21:12:00.000Z,25,12,11,5,6,13,0,5,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Avon, NC",84,84,12,N,0,3.9,65,stained,2026-11-17T21:41:00.000Z,25,10,18,3,9,14,0,5,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Buxton, NC",77,77,11,N,0,3.9,65,stained,,25,10,18,3,9,12,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Frisco, NC",75,75,10,N,0,3.9,65,stained,,25,10,18,3,9,10,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Cape Hatteras, NC",77,77,11,N,0,3.9,65,stained,,25,10,18,3,9,12,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Ocracoke, NC",53,53,12,N,0,3.9,55,stained,,25,10,0,4,0,14,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Cape Lookout, NC",74,74,17,N,0,4.3,65,stained,,18,9,19,3,10,15,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Atlantic Beach, NC",81,81,9,NE,0,4.3,66,stained,,25,9,20,4,10,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Pine Knoll Shores, NC",81,81,9,NE,0,4.3,66,stained,,25,9,20,4,10,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Emerald Isle, NC",77,77,9,NE,0,4.3,65,stained,,25,9,18,3,9,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"North Topsail Beach, NC",83,83,12,NE,0,3.3,65,stained,,25,14,18,3,9,14,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Topsail Beach, NC",82,82,9,NE,0,3.3,64,stained,,25,14,16,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Surf City, NC",83,83,8,NE,0,3.3,64,clean,,25,14,16,6,8,14,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Wrightsville Beach, NC",83,83,13,NE,0,3.3,64,stained,,24,14,16,6,8,15,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Carolina Beach, NC",81,81,10,NE,0,3.3,65,stained,,25,14,18,3,9,12,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Kure Beach, NC",83,83,13,NE,0,3.3,65,stained,,24,14,18,3,9,15,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Fisher, NC",76,76,13,NE,0,3.3,64,stained,,24,14,15,6,8,9,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Bald Head Island, NC",77,77,16,NE,0,3.3,64,stained,,19,14,15,6,8,15,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Caswell Beach, NC",72,72,13,NE,0,3.3,64,stained,,24,14,15,6,8,5,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Holden Beach, NC",81,81,11,NE,0,3.3,64,clean,,25,14,15,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Oak Island, NC",81,81,11,NE,0,3.3,64,clean,,25,14,15,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ocean Isle Beach, NC",81,81,7,NE,0,3.3,64,clean,,25,14,17,3,9,13,0,0,,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Sunset Beach, NC",81,81,10,NE,0,3.3,64,stained,,25,14,15,6,8,13,0,0,Spiny dogfish,Menhaden; Bluefish; Little tunny; Whiting; Mullet; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"North Myrtle Beach, SC",76,76,7,NE,0,3.3,63,stained,,25,14,14,2,7,14,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Myrtle Beach, SC",78,78,12,NE,0,2.4,63,clean,,25,15,14,2,7,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Surfside Beach, SC",77,77,13,NE,0,2.4,63,clean,,24,15,14,2,7,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Garden City Beach, SC",71,71,9,NE,0,,63,,,25,8,14,2,7,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Huntington Beach State Park, SC",68,68,11,NE,0,,63,,,25,8,14,2,7,12,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Litchfield Beach, SC",67,67,15,NE,0,,63,,,21,8,14,2,7,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Pawleys Island, SC",77,77,9,NE,0,2.4,63,clean,,25,15,14,2,7,14,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Isle of Palms, SC",65,65,13,NE,0,4.9,64,stained,,24,5,16,2,8,10,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Sullivan's Island, SC",65,65,16,NE,0,4.9,64,stained,,19,5,16,2,8,15,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Folly Beach, SC",60,60,22,NE,0,5.6,68,stained,,10,3,20,7,10,10,0,0,Atlantic sharpnose,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Kiawah Island, SC",58,58,18,NE,0,5.6,66,stained,,16,3,19,2,10,8,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Edisto Beach, SC",45,45,22,NE,0,5.2,64,stained,,10,3,16,2,8,6,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Hunting Island, SC",50,50,16,NE,0,5.2,64,stained,,19,3,16,2,8,2,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Hilton Head, SC",49,49,17,NE,0,5.2,64,stained,,18,3,16,2,8,2,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Tybee Island, GA",36,36,27,NE,0,5.2,65,stained,,3,3,17,2,9,2,0,0,,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"St. Simons Island, GA",40,40,25,NE,0,6.2,66,dirty,,6,0,20,5,10,2,0,0,Atlantic sharpnose,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Jekyll Island, GA",47,47,24,NE,0,6.2,68,dirty,,7,0,20,8,10,2,0,0,Atlantic sharpnose; Bonnethead,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Cumberland Island, GA",68,68,19,NE,0,6.2,68,dirty,,15,0,20,8,10,15,0,0,Atlantic sharpnose; Bonnethead,Whiting; Mullet; Menhaden; Bluefish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Amelia Island, FL",65,65,23,NE,0,6.2,68,dirty,,9,0,20,14,10,12,0,0,Blacktip; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Little Talbot Island, FL",56,56,24,NE,0,6.2,67,dirty,,7,0,20,4,10,15,0,0,Atlantic sharpnose,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Jacksonville Beach, FL",40,40,25,NE,0,6.6,69,dirty,,6,0,20,14,10,12,0,0,Blacktip; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ponte Vedra Beach, FL",40,40,27,NE,0,6.6,72,dirty,,3,0,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Vilano Beach, FL",62,62,22,NE,0,6.6,72,dirty,,10,0,20,15,10,7,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"St. Augustine Beach, FL",40,40,25,NE,0,6.6,72,dirty,,6,0,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Crescent Beach, FL",68,68,,,0,6.6,72,dirty,,10,0,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Matanzas Inlet, FL",70,70,22,E,0,6.6,72,dirty,,10,0,20,15,10,15,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Flagler Beach, FL",72,72,24,E,0,7.5,74,dirty,2026-11-17T23:38:00.000Z,7,0,20,15,10,15,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ormond Beach, FL",40,40,26,E,0,7.5,74,dirty,2026-11-17T22:22:00.000Z,4,0,20,15,10,12,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Daytona Beach, FL",77,77,18,E,0,7.5,74,dirty,2026-11-17T22:22:00.000Z,16,0,20,15,10,11,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Ponce Inlet, FL",66,66,23,E,0,7.5,74,dirty,,9,0,20,15,10,12,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"New Smyrna Beach, FL",76,76,16,E,0,7.5,74,dirty,,19,0,20,15,10,12,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Playalinda Beach, FL",75,75,20,E,0,5.6,73,dirty,,13,3,20,15,10,14,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Cocoa Beach, FL",40,40,25,E,0,5.6,73,dirty,,6,3,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Satellite Beach, FL",40,40,25,E,0,5.6,73,dirty,,6,3,20,15,10,13,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Indialantic, FL",40,40,25,E,0,5.6,73,dirty,2026-11-17T21:53:00.000Z,6,3,20,15,10,13,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Melbourne Beach, FL",40,40,30,E,0,5.6,73,dirty,2026-11-17T21:53:00.000Z,0,3,20,15,10,14,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Sebastian Inlet, FL",72,72,20,E,0,8.2,77,dirty,,13,0,20,15,10,14,0,0,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Vero Beach, FL",40,40,25,E,0,8.2,77,dirty,2026-11-17T22:19:00.000Z,6,0,20,15,10,12,0,5,Blacktip; Lemon; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Pierce, FL",40,40,26,E,0,8.2,77,dirty,,4,0,20,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Hutchinson Island, FL",77,77,16,E,0,8.2,77,dirty,,19,0,20,15,10,13,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Jensen Beach, FL",40,40,28,E,0,8.2,77,dirty,,1,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Stuart Beach, FL",40,40,29,E,0,8.2,77,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Hobe Sound Beach, FL",40,40,25,E,0,8.2,83,dirty,,6,0,19,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Jupiter Inlet, FL",40,40,27,E,0,8.2,80,dirty,,3,0,20,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Juno Beach, FL",76,76,18,E,0,8.2,80,dirty,,16,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Singer Island, FL",79,79,20,E,0,,80,,,13,8,20,15,10,13,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Palm Beach, FL",40,40,33,E,0,6.6,80,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Lake Worth Beach, FL",40,40,35,E,0,6.6,80,dirty,,0,0,20,15,10,13,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Delray Beach, FL",40,40,31,E,0,6.6,80,dirty,,0,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Boca Raton, FL",40,40,33,E,0,6.6,80,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Deerfield Beach, FL",40,40,33,E,0,6.6,80,dirty,,0,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Pompano Beach, FL",40,40,34,E,0,6.6,81,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Lauderdale, FL",40,40,31,E,0,6.6,81,dirty,,0,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Hollywood Beach, FL",40,40,32,E,0,6.6,81,dirty,,0,0,20,15,10,14,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Haulover, FL",40,40,26,E,0,6.6,81,dirty,,4,0,20,15,10,12,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Miami Beach, FL",69,69,23,E,0,6.6,81,dirty,,9,0,20,15,10,15,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Key Biscayne, FL",40,40,28,E,0,6.6,81,dirty,,1,0,20,15,10,6,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Islamorada, FL",70,70,20,E,0,5.0,82,stained,2026-11-17T21:48:00.000Z,13,5,20,15,10,2,0,5,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Marathon, FL",79,79,18,E,0,4.4,77,stained,2026-11-18T02:30:00.000Z,16,8,20,15,10,5,0,5,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Bahia Honda, FL",77,77,20,E,0,3.9,82,stained,,13,10,20,15,10,9,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Key West, FL",73,73,20,E,0,3.9,78,stained,,13,10,20,15,10,5,0,0,Blacktip; Lemon; Bull; Spinner; Atlantic sharpnose; Bonnethead,Mullet; Menhaden; Jacks; Spanish mackerel; Whiting; Silver mullet; Bluefish; Ladyfish; Little tunny; Croaker; Spot; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Perdido Key, FL",40,40,25,NE,0,6.9,71,stained,,6,0,20,3,10,14,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Pensacola Beach, FL",40,40,25,E,0,7.9,73,stained,,6,0,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Opal Beach (Santa Rosa Island), FL",61,61,19,E,0,7.9,73,stained,,15,0,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Pickens, FL",40,40,25,NE,0,7.9,71,dirty,,6,0,20,3,10,12,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Navarre Beach, FL",65,65,17,NE,0,7.9,73,stained,,18,0,20,3,10,14,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Okaloosa Island, FL",58,58,24,NE,0,5.0,73,clean,,7,5,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Destin, FL",66,66,20,NE,0,5.0,73,clean,,13,5,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Walton County beaches, FL",72,72,15,ENE,0,5.0,72,clean,,21,5,20,3,10,13,0,0,,Mullet; Whiting; Croaker; Spot,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Panama City Beach, FL",76,76,20,ENE,0,2.9,73,clean,,13,15,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Mexico Beach, FL",61,61,20,ENE,0,6.9,72,stained,,13,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Cape San Blas, FL",40,40,27,ENE,0,6.9,73,stained,,3,0,20,3,10,6,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"St. George Island, FL",40,40,30,ENE,0,5.9,72,stained,,0,3,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"St. Joseph Peninsula, FL",58,58,,,0,6.9,72,stained,,10,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Indian Pass, FL",56,56,20,ENE,0,6.9,72,stained,,13,0,20,3,10,10,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Alligator Point, FL",63,63,16,NE,0,0.9,70,clean,,19,9,20,3,10,2,0,0,,Mullet; Whiting; Croaker; Spot,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Anna Maria Island, FL",84,84,22,ENE,0,3.3,71,clean,,10,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Longboat Key, FL",80,80,24,ENE,0,3.3,71,clean,,7,14,20,15,10,14,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Lido Key, FL",86,86,21,ENE,0,3.3,76,clean,,12,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Honeymoon Island, FL",76,76,22,ENE,0,3.3,73,clean,,10,14,20,15,10,7,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Clearwater Beach, FL",84,84,14,ENE,0,3.3,67,clean,,22,14,20,4,10,14,0,0,Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Belleair Shore, FL",86,86,21,ENE,0,3.3,71,clean,,12,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Indian Rocks Beach, FL",81,81,24,ENE,0,3.3,71,clean,,7,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Indian Shores, FL",92,92,17,ENE,0,3.3,71,clean,,18,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Redington Shores, FL",40,40,25,ENE,0,3.3,71,clean,,6,14,20,15,10,13,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Madeira Beach, FL",85,85,21,E,0,3.3,71,clean,,12,14,20,15,10,14,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Treasure Island, FL",92,92,17,E,0,3.3,71,clean,,18,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,1,2026-11-17T20:57:33.585Z
+2026-11-17,"St. Pete Beach, FL",81,81,24,ENE,0,3.3,71,clean,,7,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort De Soto, FL",40,40,28,ENE,0,3.3,71,clean,,1,14,20,15,10,11,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Siesta Key, FL",83,83,21,ENE,0,3.3,76,clean,,12,14,20,15,10,12,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Casey Key, FL",40,40,25,ENE,0,3.3,76,clean,,6,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Venice, FL",92,92,17,ENE,0,3.3,77,clean,,18,14,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Manasota Key, FL",40,40,25,ENE,0,,76,,,6,8,20,15,10,13,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Boca Grande, FL",40,40,25,ENE,0,1.9,76,clean,,6,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Captiva, FL",40,40,27,E,0,,77,,,3,8,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Sanibel, FL",80,80,22,E,0,1.2,77,clean,,10,15,20,15,10,10,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Myers Beach, FL",82,82,18,E,0,1.2,77,clean,,16,15,20,15,10,6,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Bonita Beach, FL",85,85,17,E,0,,77,,,18,8,20,15,10,14,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Naples, FL",96,96,15,E,0,1.7,77,clean,,21,15,20,15,10,15,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Marco Island, FL",93,93,15,E,0,1.7,77,clean,,21,15,20,15,10,12,0,0,Blacktip; Spinner; Bull; Lemon; Bonnethead; Atlantic sharpnose; Nurse,Mullet; Ladyfish; Jacks; Spanish mackerel; Whiting; Rays; Silver mullet,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Dauphin Island, AL",58,58,20,NE,0,6.9,70,stained,,13,0,20,3,10,12,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fort Morgan, AL",61,61,20,NE,0,6.9,70,stained,,13,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Gulf Shores public beach, AL",40,40,25,NE,0,6.9,71,stained,,6,0,20,3,10,13,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Gulf State Park, AL",67,67,16,NE,0,6.9,71,stained,,19,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Orange Beach, AL",48,48,21,NE,0,6.9,63,stained,,12,0,14,0,7,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Ship Island, MS",47,47,,,0,6.9,70,stained,,10,0,20,2,10,5,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Horn Island, MS",58,58,,,0,6.9,71,stained,,10,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Petit Bois Island, MS",58,58,,,0,6.9,70,stained,,10,0,20,3,10,15,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Cat Island, MS",40,40,,,0,1.6,59,clean,,10,15,6,0,3,6,0,0,,Mullet; Whiting; Croaker,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Bay St. Louis, MS",35,35,19,NE,0,1.6,57,stained,,15,15,2,0,1,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Pass Christian, MS",36,36,,,0,1.6,59,stained,,10,15,6,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Long Beach, MS",45,45,16,NE,0,1.6,59,stained,,19,15,6,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Biloxi beach, MS",39,39,20,NE,0,1.6,59,stained,,13,15,6,0,3,2,0,0,,Mullet; Whiting; Croaker,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Grand Isle, LA",40,40,30,NE,0,5.2,73,stained,,0,3,20,5,10,10,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Elmer's Island, LA",40,40,30,NE,0,5.2,73,stained,,0,3,20,5,10,5,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Fourchon Beach, LA",40,40,25,NE,0,5.2,74,stained,,6,3,20,5,10,15,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Holly Beach, LA",72,72,15,NE,0,3.2,74,stained,,21,14,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Constance Beach, LA",72,72,15,NE,0,3.2,74,stained,,21,14,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Rutherford Beach, LA",73,73,15,NE,0,3.0,74,stained,,21,15,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Isles Dernieres, LA",57,57,,,0,4.0,73,stained,,10,10,20,5,10,2,0,0,Bull,Mullet; Pogies; Croaker; Whiting,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Sea Rim State Park, TX",77,77,10,NE,0,4.3,74,dirty,,25,9,20,11,10,2,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Crystal Beach (Bolivar), TX",73,73,11,NE,0,4.3,65,dirty,,25,9,18,3,9,9,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Galveston, TX",82,82,14,NE,0,4.3,70,dirty,,22,9,20,11,10,10,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Jamaica Beach, TX",82,82,13,NE,0,4.3,75,stained,,24,9,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"San Luis Pass, TX",67,67,13,NE,0,4.3,62,dirty,,24,9,12,3,6,13,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Follets Island, TX",56,56,13,NE,0,4.3,62,stained,,24,9,12,3,6,2,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Quintana Beach, TX",66,66,10,NE,0,3.6,63,dirty,,25,12,14,3,7,5,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Bryan Beach, TX",78,78,13,NE,0,,76,,,24,8,20,11,10,5,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Surfside Beach, TX",71,71,11,NE,0,3.6,63,dirty,,25,12,14,3,7,10,0,0,Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Sargent Beach, TX",73,73,10,NE,0,5.0,77,dirty,,25,5,20,11,10,2,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Matagorda Beach, TX",90,90,14,NE,0,3.6,76,stained,,22,12,20,11,10,15,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Port Aransas, TX",78,78,13,NNE,0,4.9,76,dirty,,24,5,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Mustang Island State Park, TX",77,77,14,NNE,0,4.9,76,dirty,,22,5,20,11,10,9,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Bob Hall Pier / North Padre, TX",80,80,13,NNE,0,4.9,76,dirty,,24,5,20,11,10,10,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Padre Island NS, TX",79,79,13,NNE,0,4.9,76,dirty,,24,5,20,11,10,9,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Padre Island NS – Mile 5, TX",78,78,13,NNE,0,4.9,76,dirty,,24,5,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Padre Island NS – Mile 15, TX",82,82,11,NNE,0,4.9,75,dirty,,25,5,20,11,10,11,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Padre Island NS – Mile 30 (Big Shell), TX",74,74,10,NNE,0,7.3,75,dirty,,25,0,20,11,10,8,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Padre Island NS – Mile 45, TX",79,79,10,NNE,0,7.3,75,dirty,,25,0,20,11,10,13,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"Padre Island NS – Mile 55, TX",76,76,14,N,0,7.0,75,dirty,,22,0,20,11,10,13,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,1,2026-11-17T20:57:33.585Z
+2026-11-17,"South Padre Island, TX",74,74,15,N,0,6.9,76,dirty,,21,0,20,11,10,12,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
+2026-11-17,"Boca Chica Beach, TX",78,78,12,N,0,6.9,77,dirty,,25,0,20,11,10,12,0,0,Bull; Atlantic sharpnose; Sandbar,Mullet; Whiting; Pogies; Jacks; Croaker; Rays,0,2026-11-17T20:57:33.585Z
