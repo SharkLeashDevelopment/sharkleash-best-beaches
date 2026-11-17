@@ -152,8 +152,25 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
     if(r.wv!=null&&!r.wvOld){o.wv=r.wv;o.wvAt=nowIso;}if(r.wt!=null&&r.tsrc!=='last good reading'){o.wt=r.wt;o.wtAt=nowIso;}LG[r.name]=o;});
    fs.writeFileSync('data/last-good-readings.json',JSON.stringify({at:nowIso,beaches:LG}));}
   fs.writeFileSync('data/best-beaches.json',JSON.stringify({updated:new Date().toISOString(),envUpdated:(noWave||noTemp)?PREV_ENV:new Date().toISOString(),month:MO,windowStart:(R.find(r=>r.w)||{w:{}}).w.start||null,beaches:R}));
+  /* daily history: one row per beach per day in data/history/YYYY-MM.csv, from the last run before 5 PM Eastern (the run nearest tonight's window). A later run that day replaces that day's rows. */
+  try{saveHistory(R);}catch(e){console.log('History skipped: '+e.message);}
   /* the SharkLeash Drop Score shows out of 100; ties at 100 are ranked by the raw total (a front adds up to 5 on top) */
   var top=R.filter(r=>!r.flag).sort((a,b)=>b.raw-a.raw).slice(0,5);
   try{require('./images.js')(top,'post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
 })();
+
+function saveHistory(R){
+  var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(new Date()),g=k=>(p.find(x=>x.type===k)||{}).value;
+  var day=g('year')+'-'+g('month')+'-'+g('day'),hr=+g('hour');
+  if(hr<12||hr>=17){console.log('History: not saved this run (only between noon and 5 PM Eastern)');return;}
+  var q=v=>{v=v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;},rd=(v,n)=>v==null||isNaN(v)?'':(+v).toFixed(n);
+  var H=['date','beach','score','raw','wind_mph','wind_dir','front','waves_ft','water_f','clarity','tide_high','pts_wind','pts_waves','pts_temp','pts_sharks','pts_bait','pts_deep','pts_front','pts_tide','sharks_running','bait_running','flagged','run_utc'];
+  var now=new Date().toISOString(),rows=R.map(r=>{var b=r.parts||{};return [day,r.name,r.score,r.raw,r.w?r.w.avg:'',r.w?r.w.dir:'',r.w&&r.w.front?1:0,rd(r.wv,1),rd(r.wt,0),r.clarity?r.clarity.rating:'',r.tide&&r.tide.high?r.tide.high:'',
+    b.wind,b.waves,b.temp,b.sharks,b.bait,b.deep,b.front,b.tide,(r.sharks||[]).join('; '),(r.bait||[]).map(x=>Array.isArray(x)?x[0]:x).join('; '),r.flag?1:0,now].map(q).join(',');});
+  fs.mkdirSync('data/history',{recursive:true});
+  var f='data/history/'+day.slice(0,7)+'.csv',keep=[];
+  if(fs.existsSync(f))keep=fs.readFileSync(f,'utf8').split('\n').slice(1).filter(l=>l&&l.slice(0,10)!==day);
+  fs.writeFileSync(f,[H.join(',')].concat(keep,rows).join('\n')+'\n');
+  console.log('History: saved '+rows.length+' beaches for '+day+' to '+f);
+}
