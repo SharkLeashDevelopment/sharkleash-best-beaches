@@ -40,6 +40,16 @@ const NOFLY_MPH=25,NOFLY_CAP=40; /* evening average wind at or over this: "too w
 async function baitReports(){try{var r=await fetch(REPORT_URL+'?type=bait',{signal:AbortSignal.timeout(30000)});var j=await r.json();return j&&j.ok?j.beaches||{}:{};}catch(e){console.log('Bait reports unavailable: '+e.message);return {};}}
 /* high tide inside the evening window: nearest NOAA station within 30 km, hi/lo predictions */
 var TST=[],TCACHE={};
+/* red tide: FWC's last 8 days of Karenia brevis samples (Florida only). A beach gets a warning when a medium or high sample is within RT_MI miles. */
+const HAB_URL='https://gis.myfwc.com/mapping/rest/services/Projects_FWC/HAB_forDEP_Dashboard/MapServer/0/query?where=1%3D1&outFields=SampleDate_t,LOCATION,LATITUDE,LONGITUDE,Abundance&returnGeometry=false&resultRecordCount=2000&f=json';
+const RT_MI=10,RT_LV=['background','very low','low','medium','high'];
+function rtLevel(a){a=String(a||'').toLowerCase();return a.startsWith('high')?4:a.startsWith('medium')?3:a.startsWith('very low')?1:a.startsWith('low')?2:0;}
+async function redTide(){try{var j=await getJ(HAB_URL,UA,3);var out=(j.features||[]).map(f=>f.attributes||{}).filter(a=>a.LATITUDE!=null&&a.LONGITUDE!=null)
+  .map(a=>({lat:+a.LATITUDE,lon:+a.LONGITUDE,lv:rtLevel(a.Abundance),where:a.LOCATION||'',date:a.SampleDate_t||''}));
+  console.log('Red tide: '+out.length+' FWC samples, '+out.filter(x=>x.lv>=3).length+' medium or high');return out;}catch(e){console.log('Red tide data unavailable: '+e.message);return null;}}
+function rtNear(H,lat,lon){if(!H)return undefined;var best=null;H.forEach(h=>{if(h.lv<3)return;var mi=km(lat,lon,h.lat,h.lon)*0.621371;if(mi>RT_MI)return;
+  if(!best||h.lv>best.lv||(h.lv===best.lv&&mi<best.mi))best={lv:h.lv,mi:mi,where:h.where,date:h.date};});
+  return best?{level:RT_LV[best.lv],mi:Math.round(best.mi),where:best.where,date:best.date}:undefined;}
 async function loadTides(){try{var r=await fetch(TIDE_URL);TST=((await r.json()).stations||[]).map(x=>({id:x[0],name:x[1],lat:x[2],lon:x[3]}));}catch(e){TST=[];console.log('Tide stations unavailable');}}
 async function tideHi(st,startIso){var d=new Date(startIso),key=st.id+'_'+d.toISOString().slice(0,10);
   if(!(key in TCACHE)){var bd=new Date(d.getTime()-6*36e5).toISOString().slice(0,10).replace(/-/g,'');
@@ -143,6 +153,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   R.forEach((r,i)=>{try{var c=updateClarity(CST,r.name,CLB[i],{waveFt:r.wv,periodS:r.wp,windMph:r.w?r.w.avg:null,windDir:r.w?r.w.dir:null},nowMs,r.wv!=null&&!r.wvOld&&!noWave);
     r.clarity=c?{rating:c.rating,vis:c.vis,why:c.why}:null;if(c)cN++;}catch(e){r.clarity=null;}});
   console.log('Clarity outlook: '+cN+' of '+R.length+' beaches');
+  {var HAB=await redTide();R.forEach(r=>{var t=rtNear(HAB,r.lat,r.lon);if(t)r.redtide=t;});console.log('Red tide warnings: '+R.filter(r=>r.redtide).length+' beaches');}
   if(fails>60){console.error('Too many forecast failures ('+fails+'); keeping the previous file.');process.exit(1);}
   fs.mkdirSync('data',{recursive:true});
   fs.writeFileSync('data/points.json',JSON.stringify(PTS));
@@ -155,7 +166,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   /* daily history: one row per beach per day in data/history/YYYY-MM.csv, from the last run before 5 PM Eastern (the run nearest tonight's window). A later run that day replaces that day's rows. */
   try{saveHistory(R);}catch(e){console.log('History skipped: '+e.message);}
   /* the SharkLeash Drop Score shows out of 100; ties at 100 are ranked by the raw total (a front adds up to 5 on top) */
-  var top=R.filter(r=>!r.flag).sort((a,b)=>b.raw-a.raw).slice(0,5);
+  var top=R.filter(r=>!r.flag&&!r.redtide).sort((a,b)=>b.raw-a.raw).slice(0,5);
   try{require('./images.js')(top,'post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
 })();
