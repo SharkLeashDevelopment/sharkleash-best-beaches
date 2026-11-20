@@ -174,7 +174,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   try{saveHistory(R);}catch(e){console.log('History skipped: '+e.message);}
   /* the SharkLeash Drop Score shows out of 100; ties at 100 are ranked by the raw total (a front adds up to 5 on top) */
   var top=R.filter(r=>!r.flag&&!r.redtide).sort((a,b)=>b.raw-a.raw).slice(0,5);
-  try{require('./images.js')(top,'post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
+  try{require('./images.js')(top,'data/post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
 })();
 
