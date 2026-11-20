@@ -9,12 +9,14 @@ var SPX={sk:{n:'Silky',t:[70,88]},bn:{n:'Blacknose',t:[70,88]},sb:{n:'Sandbar',t
 var PROT_ALL=['sb','st','du'],PROT_ST={FL:['le','ti','sh','gh']};
 // Beaches, depth, species tables and drone-ban states come from the shared data file (edit them there, not here):
 const DATA_URL='https://raw.githubusercontent.com/SharkLeashDevelopment/sharkleash-data/main/shark-data.json';
-var SPOTS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],CLB=[],BAIT={},BAITN={};
+var SPOTS=[],IDS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],CLB=[],BAIT={},BAITN={};
 const {updateClarity}=require('./clarity.js');
 async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=await fetch(DATA_URL+'?t='+Date.now());if(r.ok)j=await r.json();}catch(e){}if(!j)await sleep(2000);}
   if(!j||!Array.isArray(j.beaches)||!j.beaches.length){console.error('Could not load shark-data.json; keeping the previous file.');process.exit(1);}
   var C={high:'h',medium:'m',low:'l',inlet:'i'},f=v=>v==null?'':String(v).replace(/^>\s*/,'+');
   SPOTS=j.beaches.map(b=>[b.name+', '+b.state,b.lat,b.lon]);
+  /* permanent beach ids (shark-data.json "id"); a beach without one falls back to its name-state slug */
+  IDS=j.beaches.map(b=>b.id||String(b.name+', '+b.state).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''));
   DEEP=j.beaches.map(b=>{var d=b.depth||{};return {d10:f(d.to10ftYd),c:C[d.confidence]||'m'};});
   SPM=Object.assign({},j.speciesByMonth||{},j.speciesByRegion||{});
   REG=j.beaches.map(b=>b.speciesRegion&&SPM[b.speciesRegion]?b.speciesRegion:b.state);
@@ -144,7 +146,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
     var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;var pv=PREV[s[0]]||{},wvOld=false,wtOld=false;if(wv==null&&pv.wv!=null){wv=pv.wv;wvOld=true;}if(wt==null&&pv.wt!=null){wt=pv.wt;wtOld=true;}var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i],TD[i],BREP[s[0]]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,tide:TD[i]||undefined,baitRep:BREP[s[0]]?BREP[s[0]].counts:undefined,baitTr:BREP[s[0]]&&BREP[s[0]].trusted||undefined,
+    return {name:s[0],id:IDS[i],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,tide:TD[i]||undefined,baitRep:BREP[s[0]]?BREP[s[0]].counts:undefined,baitTr:BREP[s[0]]&&BREP[s[0]].trusted||undefined,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
@@ -186,7 +188,7 @@ function saveHistory(R){
   if(hr<12){console.log('History: not saved this run (saves start at noon Eastern)');return;}
   var q=v=>{v=v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;},rd=(v,n)=>v==null||isNaN(v)?'':(+v).toFixed(n);
   var H=['date','beach','score','raw','wind_mph','wind_dir','front','waves_ft','water_f','clarity','tide_high','pts_wind','pts_waves','pts_temp','pts_sharks','pts_bait','pts_deep','pts_front','pts_tide','sharks_running','bait_running','flagged','run_utc',
-    'bait_src','bait_yes','bait_no','saved'];
+    'bait_src','bait_yes','bait_no','saved','beach_id'];
   fs.mkdirSync('data/history',{recursive:true});
   var f='data/history/'+day.slice(0,7)+'.csv',L=fs.existsSync(f)?fs.readFileSync(f,'utf8').split('\n'):[],oldN=L.length?csvSplit(L[0]).length:H.length;
   var have=L.slice(1).some(l=>l.slice(0,10)===day),late=hr>=17;
@@ -195,7 +197,7 @@ function saveHistory(R){
   var bsrc=r=>{var c=r.baitRep||{},y=c.yes||0,n=c.no||0;return (y>=2&&y>n)||r.baitTr==='yes'?'reports_yes':(n>=2&&n>y)||r.baitTr==='no'?'reports_no':'calendar';};
   var now=new Date().toISOString(),rows=R.map(r=>{var b=r.parts||{},c=r.baitRep||{};return [day,r.name,r.score,r.raw,r.w?r.w.avg:'',r.w?r.w.dir:'',r.w&&r.w.front?1:0,rd(r.wv,1),rd(r.wt,0),r.clarity?r.clarity.rating:'',r.tide&&r.tide.high?r.tide.high:'',
     b.wind,b.waves,b.temp,b.sharks,b.bait,b.deep,b.front,b.tide,(r.sharks||[]).join('; '),(r.bait||[]).map(x=>Array.isArray(x)?x[0]:x).join('; '),r.flag?1:0,now,
-    bsrc(r),c.yes||0,c.no||0,late?'late':'window'].map(q).join(',');});
+    bsrc(r),c.yes||0,c.no||0,late?'late':'window',r.id||''].map(q).join(',');});
   /* rows saved before these columns existed get blank cells for them, so every row lines up with the header */
   var pad=H.length>oldN?','.repeat(H.length-oldN):'';
   var keep=L.slice(1).filter(l=>l&&l.slice(0,10)!==day).map(l=>l+pad);
@@ -212,7 +214,7 @@ function pastAppend(day,R){
   var month=ym=>{if(M[ym])return M[ym];var f='data/history/'+ym+'.csv',o={};if(fs.existsSync(f)){var L=fs.readFileSync(f,'utf8').split('\n'),H=csvSplit(L[0]),I=n=>H.indexOf(n);
       L.slice(1).forEach(l=>{if(!l)return;var r=csvSplit(l);(o[r[I('date')]]=o[r[I('date')]]||{})[r[I('beach')]]=r;});o._I=I;}return M[ym]=o;};
   var files=0,nights=0;
-  R.forEach(r=>{var pf='data/past/'+slug(r.name)+'.json';if(!fs.existsSync(pf))return;
+  R.forEach(r=>{var pf='data/past/'+(r.id||slug(r.name))+'.json';if(!fs.existsSync(pf))return;
     var p=JSON.parse(fs.readFileSync(pf,'utf8')),add=0;
     for(var d=next(p.to);d<=day;d=next(d)){var m=month(d.slice(0,7)),row=m[d]&&m[d][r.name];if(!row)continue;var I=m._I;
       p.days[d]=[num(row[I('score')]),num(row[I('wind_mph')]),row[I('wind_dir')]||null,num(row[I('waves_ft')]),num(row[I('water_f')]),row[I('tide_high')]?1:0];
