@@ -144,7 +144,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
     var sx=near(S,s[1],s[2],40,()=>true);if(bt&&sx&&Math.abs(bt.wt*9/5+32-sx.f)>6){bt=null;nSat++;}
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
     var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;var pv=PREV[s[0]]||{},wvOld=false,wtOld=false;if(wv==null&&pv.wv!=null){wv=pv.wv;wvOld=true;}if(wt==null&&pv.wt!=null){wt=pv.wt;wtOld=true;}var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i],TD[i],BREP[s[0]]),stt=st(s);
-    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,tide:TD[i]||undefined,baitRep:BREP[s[0]]?BREP[s[0]].counts:undefined,
+    return {name:s[0],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,tide:TD[i]||undefined,baitRep:BREP[s[0]]?BREP[s[0]].counts:undefined,baitTr:BREP[s[0]]&&BREP[s[0]].trusted||undefined,
       flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
@@ -171,17 +171,56 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
 })();
 
+/* daily history: one row per beach per day in data/history/YYYY-MM.csv.
+   Noon-5 PM Eastern: each run saves (a later run that day replaces that day's rows; the last one is nearest tonight's window).
+   After 5 PM: only if that day has no rows yet (every afternoon run failed), so a day is never missing. Those rows say saved=late.
+   Also keeps data/past/<beach>.json (the site's Past Years panel) growing night by night, filling any gap from this history. */
+function etNow(){var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(new Date()),g=k=>(p.find(x=>x.type===k)||{}).value;
+  return {day:g('year')+'-'+g('month')+'-'+g('day'),hr:+g('hour')};}
+function csvSplit(l){var out=[],cur='',q=false;for(var i=0;i<l.length;i++){var c=l[i];
+    if(q){if(c==='"'&&l[i+1]==='"'){cur+='"';i++;}else if(c==='"')q=false;else cur+=c;}
+    else if(c==='"')q=true;else if(c===','){out.push(cur);cur='';}else cur+=c;}
+  out.push(cur);return out;}
 function saveHistory(R){
-  var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(new Date()),g=k=>(p.find(x=>x.type===k)||{}).value;
-  var day=g('year')+'-'+g('month')+'-'+g('day'),hr=+g('hour');
-  if(hr<12||hr>=17){console.log('History: not saved this run (only between noon and 5 PM Eastern)');return;}
+  var E=etNow(),day=E.day,hr=E.hr;
+  if(hr<12){console.log('History: not saved this run (saves start at noon Eastern)');return;}
   var q=v=>{v=v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;},rd=(v,n)=>v==null||isNaN(v)?'':(+v).toFixed(n);
-  var H=['date','beach','score','raw','wind_mph','wind_dir','front','waves_ft','water_f','clarity','tide_high','pts_wind','pts_waves','pts_temp','pts_sharks','pts_bait','pts_deep','pts_front','pts_tide','sharks_running','bait_running','flagged','run_utc'];
-  var now=new Date().toISOString(),rows=R.map(r=>{var b=r.parts||{};return [day,r.name,r.score,r.raw,r.w?r.w.avg:'',r.w?r.w.dir:'',r.w&&r.w.front?1:0,rd(r.wv,1),rd(r.wt,0),r.clarity?r.clarity.rating:'',r.tide&&r.tide.high?r.tide.high:'',
-    b.wind,b.waves,b.temp,b.sharks,b.bait,b.deep,b.front,b.tide,(r.sharks||[]).join('; '),(r.bait||[]).map(x=>Array.isArray(x)?x[0]:x).join('; '),r.flag?1:0,now].map(q).join(',');});
+  var H=['date','beach','score','raw','wind_mph','wind_dir','front','waves_ft','water_f','clarity','tide_high','pts_wind','pts_waves','pts_temp','pts_sharks','pts_bait','pts_deep','pts_front','pts_tide','sharks_running','bait_running','flagged','run_utc',
+    'bait_src','bait_yes','bait_no','saved'];
   fs.mkdirSync('data/history',{recursive:true});
-  var f='data/history/'+day.slice(0,7)+'.csv',keep=[];
-  if(fs.existsSync(f))keep=fs.readFileSync(f,'utf8').split('\n').slice(1).filter(l=>l&&l.slice(0,10)!==day);
+  var f='data/history/'+day.slice(0,7)+'.csv',L=fs.existsSync(f)?fs.readFileSync(f,'utf8').split('\n'):[],oldN=L.length?csvSplit(L[0]).length:H.length;
+  var have=L.slice(1).some(l=>l.slice(0,10)===day),late=hr>=17;
+  if(late&&have){console.log('History: '+day+' already saved this afternoon; nothing to add');try{pastAppend(day,R);}catch(e){console.log('Past files skipped: '+e.message);}return;}
+  /* bait source, same rule as the score: two matching angler reports (or a trusted tester) override the calendar */
+  var bsrc=r=>{var c=r.baitRep||{},y=c.yes||0,n=c.no||0;return (y>=2&&y>n)||r.baitTr==='yes'?'reports_yes':(n>=2&&n>y)||r.baitTr==='no'?'reports_no':'calendar';};
+  var now=new Date().toISOString(),rows=R.map(r=>{var b=r.parts||{},c=r.baitRep||{};return [day,r.name,r.score,r.raw,r.w?r.w.avg:'',r.w?r.w.dir:'',r.w&&r.w.front?1:0,rd(r.wv,1),rd(r.wt,0),r.clarity?r.clarity.rating:'',r.tide&&r.tide.high?r.tide.high:'',
+    b.wind,b.waves,b.temp,b.sharks,b.bait,b.deep,b.front,b.tide,(r.sharks||[]).join('; '),(r.bait||[]).map(x=>Array.isArray(x)?x[0]:x).join('; '),r.flag?1:0,now,
+    bsrc(r),c.yes||0,c.no||0,late?'late':'window'].map(q).join(',');});
+  /* rows saved before these columns existed get blank cells for them, so every row lines up with the header */
+  var pad=H.length>oldN?','.repeat(H.length-oldN):'';
+  var keep=L.slice(1).filter(l=>l&&l.slice(0,10)!==day).map(l=>l+pad);
   fs.writeFileSync(f,[H.join(',')].concat(keep,rows).join('\n')+'\n');
-  console.log('History: saved '+rows.length+' beaches for '+day+' to '+f);
+  console.log('History: saved '+rows.length+' beaches for '+day+' to '+f+(late?' (late: no afternoon run saved today)':''));
+  try{pastAppend(day,R);}catch(e){console.log('Past files skipped: '+e.message);}
+}
+/* data/past/<beach>.json: [score, wind_mph, wind_dir, waves_ft, water_f, high_tide_in_window] per night.
+   Adds every saved night after the file's last day (today included), read from the history CSVs, so a missed run never leaves a hole. */
+function pastAppend(day,R){
+  if(!fs.existsSync('data/past'))return;
+  var slug=n=>String(n).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),next=d=>new Date(Date.parse(d+'T12:00:00Z')+864e5).toISOString().slice(0,10);
+  var num=v=>v===''||v==null||isNaN(+v)?null:+v,M={};
+  var month=ym=>{if(M[ym])return M[ym];var f='data/history/'+ym+'.csv',o={};if(fs.existsSync(f)){var L=fs.readFileSync(f,'utf8').split('\n'),H=csvSplit(L[0]),I=n=>H.indexOf(n);
+      L.slice(1).forEach(l=>{if(!l)return;var r=csvSplit(l);(o[r[I('date')]]=o[r[I('date')]]||{})[r[I('beach')]]=r;});o._I=I;}return M[ym]=o;};
+  var files=0,nights=0;
+  R.forEach(r=>{var pf='data/past/'+slug(r.name)+'.json';if(!fs.existsSync(pf))return;
+    var p=JSON.parse(fs.readFileSync(pf,'utf8')),add=0;
+    for(var d=next(p.to);d<=day;d=next(d)){var m=month(d.slice(0,7)),row=m[d]&&m[d][r.name];if(!row)continue;var I=m._I;
+      p.days[d]=[num(row[I('score')]),num(row[I('wind_mph')]),row[I('wind_dir')]||null,num(row[I('waves_ft')]),num(row[I('water_f')]),row[I('tide_high')]?1:0];
+      if(!p.liveFrom)p.liveFrom=d;p.to=d;add++;}
+    /* today's row can change until 5 PM (a later afternoon run replaces it): keep the file in step */
+    var m=month(day.slice(0,7)),row=m[day]&&m[day][r.name];
+    if(!add&&row&&p.days[day]){var I=m._I,v=[num(row[I('score')]),num(row[I('wind_mph')]),row[I('wind_dir')]||null,num(row[I('waves_ft')]),num(row[I('water_f')]),row[I('tide_high')]?1:0];
+      if(JSON.stringify(v)!==JSON.stringify(p.days[day])){p.days[day]=v;add=1;}}
+    if(add){fs.writeFileSync(pf,JSON.stringify(p));files++;nights+=add;}});
+  console.log('Past files: '+files+' beaches updated, '+nights+' nights added or refreshed');
 }
