@@ -41,7 +41,7 @@ const NOFLY_MPH=25,NOFLY_CAP=40; /* evening average wind at or over this: "too w
 /* "Bait showing tonight?" reports from the last 24 h: {"Name, ST":{counts:{yes,no},trusted}} */
 async function baitReports(){try{var r=await fetch(REPORT_URL+'?type=bait',{signal:AbortSignal.timeout(30000)});var j=await r.json();return j&&j.ok?j.beaches||{}:{};}catch(e){console.log('Bait reports unavailable: '+e.message);return {};}}
 /* high tide inside the evening window: nearest NOAA station within 30 km, hi/lo predictions */
-var TST=[],TCACHE={};
+var TST=[],TSTX=[],TCACHE={};
 /* red tide: FWC's last 8 days of Karenia brevis samples (Florida only). A beach gets a warning when a medium or high sample is within RT_MI miles. */
 const HAB_URL='https://gis.myfwc.com/mapping/rest/services/Projects_FWC/HAB_forDEP_Dashboard/MapServer/0/query?where=1%3D1&outFields=SampleDate_t,LOCATION,LATITUDE,LONGITUDE,Abundance&returnGeometry=false&resultRecordCount=2000&f=json';
 const RT_MI=10,RT_LV=['background','very low','low','medium','high'];
@@ -52,7 +52,12 @@ async function redTide(){try{var j=await getJ(HAB_URL,UA,3);var out=(j.features|
 function rtNear(H,lat,lon){if(!H)return undefined;var best=null;H.forEach(h=>{if(h.lv<3)return;var mi=km(lat,lon,h.lat,h.lon)*0.621371;if(mi>RT_MI)return;
   if(!best||h.lv>best.lv||(h.lv===best.lv&&mi<best.mi))best={lv:h.lv,mi:mi,where:h.where,date:h.date};});
   return best?{level:RT_LV[best.lv],mi:Math.round(best.mi),where:best.where,date:best.date}:undefined;}
-async function loadTides(){try{var r=await fetch(TIDE_URL);TST=((await r.json()).stations||[]).map(x=>({id:x[0],name:x[1],lat:x[2],lon:x[3]}));}catch(e){TST=[];console.log('Tide stations unavailable');}}
+async function loadTides(){try{var r=await fetch(TIDE_URL);TST=((await r.json()).stations||[]).map(x=>({id:x[0],name:x[1],lat:x[2],lon:x[3]}));}catch(e){TST=[];console.log('Tide stations unavailable');}
+  /* fallback: tide-stations.json is Atlantic only, so the whole Gulf (and a few Atlantic spots) had no station and never got the tide bonus.
+     A beach with no listed station within 30 km uses the nearest NOAA prediction station instead; beaches with a listed station keep it. */
+  try{var g=await getJ('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions',{'User-Agent':UA['User-Agent']},3),have={};TST.forEach(t=>{have[t.id]=1;});
+    TSTX=(g.stations||[]).map(x=>({id:String(x.id),name:x.name,lat:+x.lat,lon:+x.lng})).filter(x=>!have[x.id]&&x.lat>=24&&x.lat<=45.5&&x.lon>=-98&&x.lon<=-66);
+    console.log('Tide stations: '+TST.length+' listed + '+TSTX.length+' NOAA fallback');}catch(e){TSTX=[];console.log('NOAA tide station list unavailable: '+e.message);}}
 async function tideHi(st,startIso){var d=new Date(startIso),key=st.id+'_'+d.toISOString().slice(0,10);
   if(!(key in TCACHE)){var bd=new Date(d.getTime()-6*36e5).toISOString().slice(0,10).replace(/-/g,'');
     TCACHE[key]=getJ('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&interval=hilo&datum=MLLW&time_zone=gmt&units=english&format=json&application=SharkLeash&range=36&station='+st.id+'&begin_date='+bd,{'User-Agent':UA['User-Agent']},2)
@@ -135,7 +140,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   await Promise.all([worker(),worker(),worker(),worker()]);
   /* tides: one prediction call per station per night, shared by nearby beaches */
   var TD=new Array(SPOTS.length),j2=0,tN=0;
-  async function tworker(){while(j2<SPOTS.length){var k=j2++,s=SPOTS[k];if(!W[k]||!TST.length)continue;var st0=near(TST,s[1],s[2],30,()=>true);if(!st0)continue;
+  async function tworker(){while(j2<SPOTS.length){var k=j2++,s=SPOTS[k];if(!W[k]||!TST.length)continue;var st0=near(TST,s[1],s[2],30,()=>true)||near(TSTX,s[1],s[2],30,()=>true);if(!st0)continue;
     var had=Object.keys(TCACHE).length;try{TD[k]=await tideHi(st0,W[k].start);}catch(e){}if(Object.keys(TCACHE).length>had)await sleep(150);}}
   await Promise.all([tworker(),tworker(),tworker(),tworker()]);TD.forEach(t=>{if(t)tN++;});
   console.log('Tides: '+tN+' beaches, '+Object.keys(TCACHE).length+' station lookups; bait reports for '+Object.keys(BREP).length+' beaches');
