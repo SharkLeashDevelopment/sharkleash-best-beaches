@@ -16,6 +16,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Install the image library and fonts (for the Top 5 post images)
+        run: |
+          npm install --no-save --no-audit --no-fund @napi-rs/canvas
+          sudo apt-get install -y -q fonts-liberation fonts-dejavu-core fonts-noto-color-emoji > /dev/null || true
       - run: node score.js
       - name: Save results
         run: |
