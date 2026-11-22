@@ -59,11 +59,11 @@ async function loadTides(){try{var r=await fetch(TIDE_URL);TST=((await r.json())
   try{var g=await getJ('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions',{'User-Agent':UA['User-Agent']},3),have={};TST.forEach(t=>{have[t.id]=1;});
     TSTX=(g.stations||[]).map(x=>({id:String(x.id),name:x.name,lat:+x.lat,lon:+x.lng})).filter(x=>!have[x.id]&&x.lat>=24&&x.lat<=45.5&&x.lon>=-98&&x.lon<=-66);
     console.log('Tide stations: '+TST.length+' listed + '+TSTX.length+' NOAA fallback');}catch(e){TSTX=[];console.log('NOAA tide station list unavailable: '+e.message);}}
-async function tideHi(st,startIso){var d=new Date(startIso),key=st.id+'_'+d.toISOString().slice(0,10);
+async function tideHi(st,startIso,hrs){var d=new Date(startIso),key=st.id+'_'+d.toISOString().slice(0,10);
   if(!(key in TCACHE)){var bd=new Date(d.getTime()-6*36e5).toISOString().slice(0,10).replace(/-/g,'');
     TCACHE[key]=getJ('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&interval=hilo&datum=MLLW&time_zone=gmt&units=english&format=json&application=SharkLeash&range=36&station='+st.id+'&begin_date='+bd,{'User-Agent':UA['User-Agent']},2)
       .then(j=>(j.predictions||[]).map(p=>({t:Date.parse(p.t.replace(' ','T')+'Z'),type:p.type,v:+p.v}))).catch(()=>null);}
-  var P=await TCACHE[key];if(!P)return null;var t0=d.getTime(),t1=t0+6*36e5;
+  var P=await TCACHE[key];if(!P)return null;var t0=d.getTime(),t1=t0+(hrs||6)*36e5;
   var hi=P.find(p=>p.type==='H'&&p.t>=t0&&p.t<=t1);return {station:st.name,high:hi?new Date(hi.t).toISOString():null};}
 async function getJ(u,h,t=4){var why='';for(let k=0;k<t;k++){try{const r=await fetch(u,{headers:h||UA,signal:AbortSignal.timeout(45000)});if(r.ok)return await r.json();why='HTTP '+r.status;}catch(e){why=e.message;}await sleep(1500*(k+1));}throw new Error(why||'failed');}
 function st(s){var m=/,\s*([A-Z]{2})$/.exec(s[0]);return m?m[1]:'';}
@@ -111,7 +111,7 @@ function win(P,h0,h1,fallback){var now=Date.now(),i0=-1;
   var sp=W.map(p=>Math.max.apply(null,(String(p.windSpeed).match(/\d+/g)||[0]).map(Number))),avg=sp.reduce((a,b)=>a+b,0)/sp.length;
   var A=P.slice(i0,i0+36),t0=A[0].temperature,n=0;A.forEach(p=>{var d=DIRS.indexOf(p.windDirection);if((d>=13||d<=2)&&t0-p.temperature>=8)n++;});
   var before=P.slice(i0,i0+4).every(p=>{var d=DIRS.indexOf(p.windDirection);return d>=5&&d<=11;});
-  return {avg:Math.round(avg),dir:W[0].windDirection,front:n>=2&&before,start:W[0].startTime};}
+  return {avg:Math.round(avg),dir:W[0].windDirection,front:n>=2&&before,start:W[0].startTime,hrs:fallback?undefined:W.length};}
 function lv(code,s,MO,rk){var rows=SPM[rk]||[];for(var i=0;i<rows.length;i++)if(rows[i][0]===code){var P=rows[i][1];if(code==='bu'&&rk==='FL'&&s[1]<27.6)P='222333333222';return +P.charAt(MO);}return 0;}
 function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   var v=w?w.avg:null;b.wind=v===null?10:v<5?10+3*v:v<=12?25:v>=29?0:Math.round(25*(29-v)/17);
@@ -196,7 +196,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
 async function mornings(R,AMW,MO,BREP){
   var TA=new Array(SPOTS.length),j=0;
   async function tw(){while(j<SPOTS.length){var k=j++,s=SPOTS[k];if(!AMW[k])continue;var st0=near(TST,s[1],s[2],30,()=>true)||near(TSTX,s[1],s[2],30,()=>true);if(!st0)continue;
-    var had=Object.keys(TCACHE).length;try{TA[k]=await tideHi(st0,AMW[k].start);}catch(e){}if(Object.keys(TCACHE).length>had)await sleep(150);}}
+    var had=Object.keys(TCACHE).length;try{TA[k]=await tideHi(st0,AMW[k].start,AMW[k].hrs);}catch(e){}if(Object.keys(TCACHE).length>had)await sleep(150);}}
   await Promise.all([tw(),tw(),tw(),tw()]);
   var A=R.map((r,i)=>{var w=AMW[i];if(!w)return null;var s=SPOTS[i],sc=score(s,w,r.wv,r.wt,DEEP[i],MO,REG[i],TA[i],BREP[s[0]]);
     return {name:r.name,id:r.id,lat:r.lat,lon:r.lon,w:w,wv:r.wv,wt:r.wt,d10:r.d10,dc:r.dc,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,
