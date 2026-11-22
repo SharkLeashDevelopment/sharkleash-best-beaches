@@ -1,5 +1,5 @@
 // SharkLeash Best Beaches: draws the Top 5 post images (same design as the "Save post images" button on the site)
-// 1080x1920 for TikTok / Reels / Stories and 1080x1350 for the Instagram feed.
+// 1080x1920 for TikTok / Reels / Stories and 1080x1350 for the Instagram feed. opt.am = the morning (5-11 AM) version.
 const fs = require('fs');
 const path = require('path');
 const { createCanvas } = require('@napi-rs/canvas');
@@ -15,7 +15,7 @@ function fit(x, t, max, size) {
   let s = size;
   do { x.font = 'bold ' + s + 'px ' + FONT; s -= 2; } while (x.measureText(t).width > max && s > 14);
 }
-function draw(top, W, H) {
+function draw(top, W, H, am) {
   const c = createCanvas(W, H), x = c.getContext('2d'), tall = H > 1500;
   const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#02080d'); g.addColorStop(.5, '#061923'); g.addColorStop(1, '#02080d');
   x.fillStyle = g; x.fillRect(0, 0, W, H);
@@ -25,9 +25,9 @@ function draw(top, W, H) {
   x.fillStyle = '#fff'; x.font = 'bold 46px ' + FONT; x.fillText('SharkLeash', 70, y);
   const lw = x.measureText('SharkLeash').width; x.fillStyle = '#ff2b2b'; x.fillRect(66, y - 16, lw + 8, 5);
   y += tall ? 120 : 90; x.fillStyle = '#fff'; x.font = 'bold ' + (tall ? 92 : 80) + 'px ' + FONT; x.fillText('BEST SHARK', 70, y);
-  y += tall ? 100 : 86; x.fillStyle = '#ff2b2b'; x.fillText('BEACHES TONIGHT', 70, y);
+  y += tall ? 100 : 86; x.fillStyle = '#ff2b2b'; if (am) fit(x, 'BEACHES THIS MORNING', W - 140, tall ? 92 : 80); x.fillText(am ? 'BEACHES THIS MORNING' : 'BEACHES TONIGHT', 70, y);
   y += tall ? 70 : 56; x.fillStyle = '#6ee7ff'; x.font = 'bold ' + (tall ? 40 : 34) + 'px ' + FONT;
-  x.fillText(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: TZ }) + ' · drone-legal spots', 70, y);
+  x.fillText(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: TZ }) + (am ? ' · 5–11 AM' : '') + ' · drone-legal spots', 70, y);
   y += tall ? 60 : 40;
   const rowH = tall ? (H - y - 330) / 5 : (H - y - 190) / 5;
   top.forEach((r, i) => {
@@ -48,15 +48,16 @@ function draw(top, W, H) {
   x.fillText(ft, (W - x.measureText(ft).width) / 2, fy + (tall ? 2 : 0));
   return c;
 }
-function caption(top) {
+function caption(top, am) {
   const d = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: TZ });
-  return '🦈 Best shark beaches tonight, ' + d + ' (drone-legal spots)\n\n' +
+  return '🦈 Best shark beaches ' + (am ? 'this morning (5–11 AM)' : 'tonight') + ', ' + d + ' (drone-legal spots)\n\n' +
     top.map((r, i) => (i + 1) + '. ' + r.name + ' (' + r.score + '): ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '') + (r.note ? ' · ' + r.note : '')).join('\n') +
     '\n\nRanked by the SharkLeash Drop Score (out of 100): wind, surf, water temp, sharks and bait running, and deep water close.\nCheck your own beach free at SharkLeashFishing.com\n#sharkleashfishing #sharkfishing #landbasedsharkfishing #dronefishing #LBSF\n';
 }
-module.exports = function makeImages(top, outDir) {
+module.exports = function makeImages(top, outDir, opt) {
+  const am = !!(opt && opt.am);
   fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, 'tiktok.png'), draw(top, 1080, 1920).toBuffer('image/png'));
-  fs.writeFileSync(path.join(outDir, 'instagram.png'), draw(top, 1080, 1350).toBuffer('image/png'));
-  fs.writeFileSync(path.join(outDir, 'caption.txt'), caption(top));
+  fs.writeFileSync(path.join(outDir, 'tiktok.png'), draw(top, 1080, 1920, am).toBuffer('image/png'));
+  fs.writeFileSync(path.join(outDir, 'instagram.png'), draw(top, 1080, 1350, am).toBuffer('image/png'));
+  fs.writeFileSync(path.join(outDir, 'caption.txt'), caption(top, am));
 };
