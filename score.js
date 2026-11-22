@@ -1,5 +1,6 @@
 // SharkLeash Best Beaches: scores every beach for tonight's 4-10 PM window and writes data/best-beaches.json
 // Runs every 2 hours. During the window it scores what's left of tonight; after 10 PM it moves to tomorrow evening.
+// Morning runs (4-8 AM Eastern) also score this morning's 5-11 AM window: data/best-mornings.json + post images in data/post/am.
 // Runs on GitHub Actions on a schedule. Data: NWS hourly forecast, NOAA NDBC buoys and MUR satellite water temp (via CoastWatch ERDDAP).
 const fs = require('fs');
 var SPX={sk:{n:'Silky',t:[70,88]},bn:{n:'Blacknose',t:[70,88]},sb:{n:'Sandbar',t:[58,82]},st:{n:'Sand tiger',t:[55,76]},du:{n:'Dusky',t:[62,80]},bt:{n:'Blacktip',t:[68,86]},sp:{n:'Spinner',t:[68,86]},
@@ -93,12 +94,21 @@ function brg(a,b,c,d){var r=Math.PI/180,y=Math.sin((d-b)*r)*Math.cos(c*r),x=Math
 var OCEAN_PIERS={LKWF1:1,MROS1:1,JMPN7:1,DUKN7:1};
 function seaward(lat,lon,faces,p){if(faces==null||OCEAN_PIERS[p.id])return true;if(km(lat,lon,p.lat,p.lon)<=3)return true;var d=Math.abs(brg(lat,lon,p.lat,p.lon)-faces)%360;if(d>180)d=360-d;return d<=(/^\d{5}$/.test(String(p.id))?110:75);}
 function near(list,lat,lon,maxKm,ok){var b=null,bd=1e9;list.forEach(p=>{if(!ok(p))return;var d=km(lat,lon,p.lat,p.lon);if(d<bd){bd=d;b=p;}});return bd<=maxKm?b:null;}
+/* morning runs: 4-8 AM Eastern (the 5 and 7 AM runs in winter, 4, 6 and 8 AM in summer) */
+const AM_RUN=(function(){var h=hourNY(new Date());return h>=4&&h<=8;})()||process.env.AM_RUN==='1';
 let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch(e){}
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
   if(!h){var j=await getJ('https://api.weather.gov/points/'+s[1].toFixed(4)+','+s[2].toFixed(4));h=j.properties.forecastHourly;PTS[k]=h;}
-  var f=await getJ(h),P=f.properties.periods,now=Date.now(),i0=-1;
-  for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);var hr=+String(P[i].startTime).slice(11,13);if(t.getTime()>=now-36e5&&hr>=16&&hr<22){i0=i;break;}}if(i0<0)i0=0;
-  var W=P.slice(i0,i0+6),sp=W.map(p=>Math.max.apply(null,(String(p.windSpeed).match(/\d+/g)||[0]).map(Number))),avg=sp.reduce((a,b)=>a+b,0)/sp.length;
+  var f=await getJ(h),P=f.properties.periods;
+  var ev=win(P,16,22,true);if(AM_RUN)ev.am=win(P,5,11,false);return ev;}
+/* one 6-hour window from the hourly forecast: evening 4-10 PM (h0=16) or morning 5-11 AM (h0=5), beach local time.
+   The evening falls back to the first period if none is found (as before); the morning returns null instead. */
+function win(P,h0,h1,fallback){var now=Date.now(),i0=-1;
+  for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);var hr=+String(P[i].startTime).slice(11,13);if(t.getTime()>=now-36e5&&hr>=h0&&hr<h1){i0=i;break;}}
+  if(i0<0){if(!fallback)return null;i0=0;}
+  /* evening: always 6 hours from the first window hour (unchanged); morning: only the hours left before 11 AM */
+  var W=P.slice(i0,i0+(fallback?6:Math.max(1,Math.min(6,h1-+String(P[i0].startTime).slice(11,13)))));
+  var sp=W.map(p=>Math.max.apply(null,(String(p.windSpeed).match(/\d+/g)||[0]).map(Number))),avg=sp.reduce((a,b)=>a+b,0)/sp.length;
   var A=P.slice(i0,i0+36),t0=A[0].temperature,n=0;A.forEach(p=>{var d=DIRS.indexOf(p.windDirection);if((d>=13||d<=2)&&t0-p.temperature>=8)n++;});
   var before=P.slice(i0,i0+4).every(p=>{var d=DIRS.indexOf(p.windDirection);return d>=5&&d<=11;});
   return {avg:Math.round(avg),dir:W[0].windDirection,front:n>=2&&before,start:W[0].startTime};}
@@ -135,8 +145,9 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
     for(var k in LGALL){var e=LGALL[k],v={};if(e.wv!=null&&FRESH(e.wvAt||lg.at))v.wv=e.wv;if(e.wt!=null&&FRESH(e.wtAt||lg.at))v.wt=e.wt;PREV[k]=v;}}catch(e){}
   var noWave=!B.some(p=>p.wv!=null&&!isNaN(p.wv)),noTemp=!B.some(p=>p.wt!=null&&!isNaN(p.wt))&&!S.length;
   if(noWave||noTemp)console.log('NOAA data missing (waves: '+(noWave?'no':'ok')+', water temp: '+(noTemp?'no':'ok')+'); reusing last good values for '+Object.keys(PREV).length+' beaches');
-  var W=new Array(SPOTS.length),i=0,fails=0;
-  async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);}catch(e){W[k]=null;fails++;}await sleep(250);}}
+  var W=new Array(SPOTS.length),AMW=new Array(SPOTS.length),i=0,fails=0;
+  /* the morning window comes from the same forecast call; kept apart so best-beaches.json is unchanged */
+  async function worker(){while(i<SPOTS.length){var k=i++;try{W[k]=await wind(SPOTS[k]);if(W[k]&&'am' in W[k]){AMW[k]=W[k].am;delete W[k].am;}}catch(e){W[k]=null;fails++;}await sleep(250);}}
   await Promise.all([worker(),worker(),worker(),worker()]);
   /* tides: one prediction call per station per night, shared by nearby beaches */
   var TD=new Array(SPOTS.length),j2=0,tN=0;
@@ -176,7 +187,26 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   var top=R.filter(r=>!r.flag&&!r.redtide).sort((a,b)=>b.raw-a.raw).slice(0,5);
   try{require('./images.js')(top,'data/post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
+  /* morning runs only: score this morning's 5-11 AM window. Wrapped so a problem here never touches the evening results above. */
+  if(AM_RUN){try{await mornings(R,AMW,MO,BREP);}catch(e){console.log('Morning scores skipped: '+e.message);}}
 })();
+
+/* Morning Drop Score: same formula as the evening, fed the 5-11 AM wind, front and high tide; surf, water temp, sharks, bait and deep water are shared.
+   A first guess until morning trip reports show what matters. Writes data/best-mornings.json and the morning post images (data/post/am). */
+async function mornings(R,AMW,MO,BREP){
+  var TA=new Array(SPOTS.length),j=0;
+  async function tw(){while(j<SPOTS.length){var k=j++,s=SPOTS[k];if(!AMW[k])continue;var st0=near(TST,s[1],s[2],30,()=>true)||near(TSTX,s[1],s[2],30,()=>true);if(!st0)continue;
+    var had=Object.keys(TCACHE).length;try{TA[k]=await tideHi(st0,AMW[k].start);}catch(e){}if(Object.keys(TCACHE).length>had)await sleep(150);}}
+  await Promise.all([tw(),tw(),tw(),tw()]);
+  var A=R.map((r,i)=>{var w=AMW[i];if(!w)return null;var s=SPOTS[i],sc=score(s,w,r.wv,r.wt,DEEP[i],MO,REG[i],TA[i],BREP[s[0]]);
+    return {name:r.name,id:r.id,lat:r.lat,lon:r.lon,w:w,wv:r.wv,wt:r.wt,d10:r.d10,dc:r.dc,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,
+      tide:TA[i]||undefined,clarity:r.clarity,redtide:r.redtide,flag:r.flag,note:r.note};}).filter(Boolean);
+  if(A.length<R.length/2){console.log('Morning scores skipped: only '+A.length+' beaches had a morning forecast');return;}
+  var first=A.find(a=>a.w&&a.w.start);
+  fs.writeFileSync('data/best-mornings.json',JSON.stringify({updated:new Date().toISOString(),window:'5-11 AM',month:MO,windowStart:first?first.w.start:null,beaches:A}));
+  var top=A.filter(r=>!r.flag&&!r.redtide).sort((a,b)=>b.raw-a.raw).slice(0,5);
+  try{require('./images.js')(top,'data/post/am',{am:true});console.log('Morning post images drawn');}catch(e){console.log('Morning post images skipped: '+e.message);}
+  console.log('Morning Top 5 (5-11 AM):');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));}
 
 /* daily history: one row per beach per day in data/history/YYYY-MM.csv.
    Noon-5 PM Eastern: each run saves (a later run that day replaces that day's rows; the last one is nearest tonight's window).
