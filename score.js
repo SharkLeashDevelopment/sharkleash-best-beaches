@@ -10,7 +10,10 @@ var SPX={sk:{n:'Silky',t:[70,88]},bn:{n:'Blacknose',t:[70,88]},sb:{n:'Sandbar',t
 var PROT_ALL=['sb','st','du'],PROT_ST={FL:['le','ti','sh','gh']};
 // Beaches, depth, species tables and drone-ban states come from the shared data file (edit them there, not here):
 const DATA_URL='https://raw.githubusercontent.com/SharkLeashDevelopment/sharkleash-data/main/shark-data.json';
-var SPOTS=[],IDS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],CLB=[],BAIT={},BAITN={};
+var SPOTS=[],IDS=[],SPM={},DEEP=[],BAN={},REG=[],LBAN=[],SEAS=[],CLB=[],BAIT={},BAITN={};
+/* a local ban with banMonths (1-12, e.g. [5,6,7,8,9]) only applies in those months, Eastern time */
+function banOn(b){if(!b||!b.localBan)return false;var m=b.banMonths;if(!m||!m.length)return true;var mo=+new Intl.DateTimeFormat('en-US',{month:'numeric',timeZone:'America/New_York'}).format(new Date());return m.indexOf(mo)>=0;}
+
 const {updateClarity}=require('./clarity.js');
 async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=await fetch(DATA_URL+'?t='+Date.now());if(r.ok)j=await r.json();}catch(e){}if(!j)await sleep(2000);}
   if(!j||!Array.isArray(j.beaches)||!j.beaches.length){console.error('Could not load shark-data.json; keeping the previous file.');process.exit(1);}
@@ -21,7 +24,8 @@ async function loadShared(){var j=null;for(let k=0;k<4&&!j;k++){try{const r=awai
   DEEP=j.beaches.map(b=>{var d=b.depth||{};return {d10:f(d.to10ftYd),c:C[d.confidence]||'m'};});
   SPM=Object.assign({},j.speciesByMonth||{},j.speciesByRegion||{});
   REG=j.beaches.map(b=>b.speciesRegion&&SPM[b.speciesRegion]?b.speciesRegion:b.state);
-  LBAN=j.beaches.map(b=>b.localBan||'');
+  /* seasonal bans out of season don't flag the beach; the rule rides along as "seasonal" so it can still be shown */
+  LBAN=j.beaches.map(b=>banOn(b)?b.localBan:'');SEAS=j.beaches.map(b=>b.localBan&&!banOn(b)?b.localBan:'');
   CLB=j.beaches.map(b=>({faces:b.faces,clarityBase:b.clarityBase||0}));
   PARK={};PRIV={};j.beaches.forEach(b=>{var k=b.name+', '+b.state;if(b.noDrones)PARK[k]=b.noDrones;if(b.privateLaunch)PRIV[k]=1;});
   if(!Object.keys(PARK).length){console.error('No no-drone parks in shark-data.json (old copy?); keeping the previous file.');process.exit(1);}
@@ -163,7 +167,7 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
     var wm=near(M,s[1],s[2],70,()=>true),wsrc=bw?'buoy':null;if(!bw&&wm)wsrc='model';
     var wp=bw&&bw.wp>0?bw.wp:wm&&wm.wp>0?wm.wp:null;var wt=bt?bt.wt*9/5+32:(sx?sx.f:null),wv=bw?bw.wv*3.28084:wm?wm.wv*3.28084:null;var pv=PREV[s[0]]||{},wvOld=false,wtOld=false;if(wv==null&&pv.wv!=null){wv=pv.wv;wvOld=true;}if(wt==null&&pv.wt!=null){wt=pv.wt;wtOld=true;}var sc=score(s,W[i],wv,wt,DEEP[i],MO,REG[i],TD[i],BREP[s[0]]),stt=st(s);
     return {name:s[0],id:IDS[i],lat:s[1],lon:s[2],w:W[i],wv:wv==null?null:Math.round(wv*10)/10,wt:wt==null?null:Math.round(wt*10)/10,d10:DEEP[i].d10,dc:DEEP[i].c,wp:wp,wsrc:wsrc,tsrc:bt?'buoy '+(bt.id||''):sx?'satellite':wtOld?'last good reading':null,wvOld:wvOld||undefined,score:sc.tot,raw:sc.tot,parts:sc.b,sharks:sc.list,maybe:sc.maybe,release:sc.rel,bait:sc.bait,tide:TD[i]||undefined,baitRep:BREP[s[0]]?BREP[s[0]].counts:undefined,baitTr:BREP[s[0]]&&BREP[s[0]].trusted||undefined,
-      flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
+      seasonal:SEAS[i]||undefined,flag:LBAN[i]?'shark fishing banned here ('+LBAN[i]+')':BAN[stt]?'drone drops banned in '+stt:PARK[s[0]]&&!PRIV[s[0]]?'no drones ('+PARK[s[0]]+')':'',note:!LBAN[i]&&!BAN[stt]&&PARK[s[0]]&&PRIV[s[0]]?'launch from private property only ('+PARK[s[0]]+')':''};});
   console.log('Water temp: '+nSkip+' beaches skipped a station behind or beside the beach; '+nSat+' buoy readings dropped for disagreeing with the satellite by more than 6F');
   /* water clarity outlook: rolling murk per beach, kept between runs in data/clarity-state.json */
   var CST={};try{CST=JSON.parse(fs.readFileSync('data/clarity-state.json','utf8'));}catch(e){}
