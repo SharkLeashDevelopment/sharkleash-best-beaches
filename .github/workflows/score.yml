@@ -1,9 +1,6 @@
 name: Score beaches
 on:
   schedule:
-    - cron: '7 */2 * * *'   # evename: Score beaches
-on:
-  schedule:
     - cron: '7 */2 * * *'   # every 2 hours (at :07, GitHub runs can start a few minutes late)
   workflow_dispatch:        # lets you run it by hand from the Actions tab
     inputs:
@@ -51,46 +48,6 @@ jobs:
             ( git fetch -q --depth 1 origin post && git archive FETCH_HEAD am | tar -x -C /tmp/post ) || echo "No morning images yet"
           fi
           cd /tmp/post
-          git init -q -b post
-          git config user.name "sharkleash-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add .
-          git commit -q -m "Post images $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" post:postry 2 hours (at :07, GitHub runs can start a few minutes late)
-  workflow_dispatch:        # lets you run it by hand from the Actions tab
-permissions:
-  contents: write
-concurrency:
-  group: score-beaches      # never let two runs overlap
-  cancel-in-progress: false
-jobs:
-  score:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Install the image library and fonts (for the Top 5 post images)
-        run: |
-          npm install --no-save --no-audit --no-fund @napi-rs/canvas
-          sudo apt-get install -y -q fonts-liberation fonts-dejavu-core fonts-noto-color-emoji > /dev/null || true
-      - run: node score.js
-      - name: Save results
-        run: |
-          git config user.name "sharkleash-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data ':(exclude)data/post'
-          git commit -m "Beach scores" || echo "No changes"
-          git pull --rebase --autostash || true
-          git push
-      # Top 5 post images (written to data/post by score.js) live on their own branch, "post", replaced every run:
-      # only the latest set exists, no history builds up. https://github.com/SharkLeashDevelopment/sharkleash-best-beaches/tree/post
-      - name: Publish post images (latest only)
-        if: always()
-        run: |
-          [ -f data/post/tiktok.png ] || { echo "No post images this run"; exit 0; }
-          rm -rf /tmp/post && cp -r data/post /tmp/post && cd /tmp/post
           git init -q -b post
           git config user.name "sharkleash-bot"
           git config user.email "actions@users.noreply.github.com"
