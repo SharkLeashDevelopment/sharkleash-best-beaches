@@ -1,5 +1,5 @@
-// SharkLeash Best Beaches: scores every beach for tonight's 4-10 PM window and writes data/best-beaches.json
-// Runs every 2 hours. During the window it scores what's left of tonight; after 10 PM it moves to tomorrow evening.
+// SharkLeash Best Beaches: scores every beach for tonight's drop window (2 hours before sunset to 4 hours after, each beach's own sunset) and writes data/best-beaches.json
+// Runs every 2 hours. During the window it scores what's left of tonight; once it ends it moves to tomorrow evening.
 // Morning runs (4-8 AM Eastern) also score this morning's 5-11 AM window: data/best-mornings.json + post images in data/post/am.
 // Runs on GitHub Actions on a schedule. Data: NWS hourly forecast, NOAA NDBC buoys and MUR satellite water temp (via CoastWatch ERDDAP).
 const fs = require('fs');
@@ -104,11 +104,24 @@ let PTS={};try{PTS=JSON.parse(fs.readFileSync('data/points.json','utf8'));}catch
 async function wind(s){var k=s[1]+','+s[2],h=PTS[k];
   if(!h){var j=await getJ('https://api.weather.gov/points/'+s[1].toFixed(4)+','+s[2].toFixed(4));h=j.properties.forecastHourly;PTS[k]=h;}
   var f=await getJ(h),P=f.properties.periods;
-  var ev=win(P,16,22,true);if(AM_RUN)ev.am=win(P,5,11,false);return ev;}
-/* one 6-hour window from the hourly forecast: evening 4-10 PM (h0=16) or morning 5-11 AM (h0=5), beach local time.
+  var ev=eveWin(P,s[1],s[2]);if(AM_RUN)ev.am=win(P,5,11,false);return ev;}
+/* sunset for a calendar date (NOAA approximation, within a minute or two); returns epoch ms */
+function sunsetMs(y,m,d,lat,lon){var R=Math.PI/180,J=Date.UTC(y,m,d,12)/864e5+2440587.5,n=Math.round(J-2451545+0.0008-lon/360),
+  Js=2451545+0.0009-lon/360+n,M=(357.5291+0.98560028*(Js-2451545))%360,C=1.9148*Math.sin(M*R)+0.02*Math.sin(2*M*R)+0.0003*Math.sin(3*M*R),L=(M+C+180+102.9372)%360,
+  Jt=Js+0.0053*Math.sin(M*R)-0.0069*Math.sin(2*L*R),dec=Math.asin(Math.sin(L*R)*Math.sin(23.44*R)),
+  w=Math.acos((Math.sin(-0.833*R)-Math.sin(lat*R)*Math.sin(dec))/(Math.cos(lat*R)*Math.cos(dec)))/R/360;return (Jt+w-2440587.5)*864e5;}
+/* evening drop window: from the hour nearest 2 h before sunset, 6 hours (to about 4 h after sunset). Anglers set baits an hour or two before dark.
+   Nov in Florida ~3-9 PM; June in NC ~6:30 PM-12:30 AM. Once tonight's window is over it moves to tomorrow's. */
+const EVE_PRE=2,EVE_HRS=6;
+function eveStart(lat,lon,now){var t=new Date(now);for(var k=-1;k<=3;k++){var d=new Date(Date.UTC(t.getUTCFullYear(),t.getUTCMonth(),t.getUTCDate()+k));
+    var ss=sunsetMs(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),lat,lon),S=Math.round((ss-EVE_PRE*36e5)/36e5)*36e5;if(S+EVE_HRS*36e5>now)return S;}return null;}
+function eveWin(P,lat,lon){var now=Date.now(),S=eveStart(lat,lon,now),i0=-1;
+  if(S!=null)for(var i=0;i<P.length;i++){var t=Date.parse(P[i].startTime);if(t>=now-36e5&&t>=S&&t<S+EVE_HRS*36e5){i0=i;break;}}
+  return win(P,16,22,true,i0);}
+/* one 6-hour window from the hourly forecast: the evening (start index from eveWin; 4-10 PM local only if sunset can't be worked out) or morning 5-11 AM (h0=5), beach local time.
    The evening falls back to the first period if none is found (as before); the morning returns null instead. */
-function win(P,h0,h1,fallback){var now=Date.now(),i0=-1;
-  for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);var hr=+String(P[i].startTime).slice(11,13);if(t.getTime()>=now-36e5&&hr>=h0&&hr<h1){i0=i;break;}}
+function win(P,h0,h1,fallback,i0){var now=Date.now();if(i0==null||i0<0)i0=-1;
+  if(i0<0)for(var i=0;i<P.length;i++){var t=new Date(P[i].startTime);var hr=+String(P[i].startTime).slice(11,13);if(t.getTime()>=now-36e5&&hr>=h0&&hr<h1){i0=i;break;}}
   if(i0<0){if(!fallback)return null;i0=0;}
   /* evening: always 6 hours from the first window hour (unchanged); morning: only the hours left before 11 AM */
   var W=P.slice(i0,i0+(fallback?6:Math.max(1,Math.min(6,h1-+String(P[i0].startTime).slice(11,13)))));
