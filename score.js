@@ -202,6 +202,8 @@ function score(s,w,wv,wt,dp,MO,rk,tide,brep){var b={};rk=rk||st(s);
   try{saveHistory(R);}catch(e){console.log('History skipped: '+e.message);}
   /* the SharkLeash Drop Score shows out of 100; ties at 100 are ranked by the raw total (a front adds up to 5 on top) */
   var top=R.filter(r=>!r.flag&&!r.redtide).sort((a,b)=>b.raw-a.raw).slice(0,5);
+  /* "Did you know?" daily post (dyk.js): today's fact from sharkleash-data/did-you-know.json, drawn to data/post/dyk; the Top 5 images below show the same fact */
+  try{var dk=await require('./dyk.js')('data/post/dyk');console.log('Did you know drawn: '+dk.day+' '+dk.state);}catch(e){console.log('Did you know skipped: '+e.message);}
   try{require('./images.js')(top,'data/post');console.log('Post images drawn');}catch(e){console.log('Post images skipped: '+e.message);}
   console.log('Top 5:');top.forEach((r,i)=>console.log((i+1)+'. '+r.name+' '+r.score));console.log('Forecast failures: '+fails);
   /* morning runs only: score this morning's 5-11 AM window. Wrapped so a problem here never touches the evening results above. */
