@@ -15,8 +15,8 @@ function fit(x, t, max, size) {
   let s = size;
   do { x.font = 'bold ' + s + 'px ' + FONT; s -= 2; } while (x.measureText(t).width > max && s > 14);
 }
-function draw(top, W, H, am) {
-  const c = createCanvas(W, H), x = c.getContext('2d'), tall = H > 1500;
+function draw(top, W, H, am, dyk) {
+  const c = createCanvas(W, H), x = c.getContext('2d'), tall = H > 1500, DH = dyk ? (tall ? 236 : 112) : 0;
   const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#02080d'); g.addColorStop(.5, '#061923'); g.addColorStop(1, '#02080d');
   x.fillStyle = g; x.fillRect(0, 0, W, H);
   const r1 = x.createRadialGradient(W * .8, H * .15, 0, W * .8, H * .15, W * .6); r1.addColorStop(0, 'rgba(0,194,255,.22)'); r1.addColorStop(1, 'rgba(0,194,255,0)'); x.fillStyle = r1; x.fillRect(0, 0, W, H);
@@ -29,7 +29,7 @@ function draw(top, W, H, am) {
   y += tall ? 70 : 56; x.fillStyle = '#6ee7ff'; x.font = 'bold ' + (tall ? 40 : 34) + 'px ' + FONT;
   x.fillText(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: TZ }) + (am ? ' · 5–11 AM' : '') + ' · drone-legal spots', 70, y);
   y += tall ? 60 : 40;
-  const rowH = tall ? (H - y - 330) / 5 : (H - y - 190) / 5;
+  const rowH = tall ? (H - y - 330 - DH) / 5 : (H - y - 190 - DH) / 5;
   top.forEach((r, i) => {
     const Y = y + i * rowH; rr(x, 'rgba(255,255,255,.07)', 60, Y, W - 120, rowH - 22, 28);
     x.fillStyle = '#ff4b2b'; x.font = 'bold ' + (tall ? 96 : 78) + 'px ' + FONT; x.fillText(String(i + 1), 90, Y + (rowH - 22) / 2 + (tall ? 34 : 28));
@@ -43,21 +43,35 @@ function draw(top, W, H, am) {
     x.fillStyle = 'rgba(255,255,255,.5)'; x.font = 'bold ' + (tall ? 24 : 20) + 'px ' + FONT;
     const lbw = x.measureText('drop score').width; x.fillText('drop score', W - 100 - lbw, Y + (rowH - 22) / 2 + (tall ? 58 : 48));
   });
+  /* "Did you know?" box (today's fact from did-you-know.json, see dyk.js) between the list and the footer */
+  if (dyk) {
+    const by = y + rowH * 5 + (tall ? 6 : 2), bh = DH - (tall ? 26 : 18);
+    rr(x, 'rgba(110,231,255,.08)', 60, by, W - 120, bh, 24); x.strokeStyle = 'rgba(110,231,255,.55)'; x.lineWidth = 2; x.stroke();
+    x.fillStyle = '#6ee7ff'; x.font = 'bold ' + (tall ? 28 : 22) + 'px ' + FONT; x.fillText('💡 DID YOU KNOW?', 90, by + (tall ? 46 : 30));
+    const maxW = W - 180, maxLines = tall ? 3 : 2; let fsz = tall ? 34 : 24, lines;
+    for (; fsz >= 18; fsz -= 1) { x.font = 'bold ' + fsz + 'px ' + FONT; lines = wrapText(x, dyk.fact, maxW); if (lines.length <= maxLines) break; }
+    x.fillStyle = '#fff'; lines.slice(0, maxLines).forEach((l, i) => x.fillText(l, 90, by + (tall ? 92 : 60) + i * fsz * (tall ? 1.3 : 1.2)));
+  }
   const fy = H - (tall ? 170 : 90); rr(x, '#ff3b1f', 60, fy - (tall ? 70 : 58), W - 120, tall ? 110 : 90, 26);
   const ft = 'Check your beach free: SharkLeashFishing.com'; x.fillStyle = '#fff'; fit(x, ft, W - 180, tall ? 44 : 38);
   x.fillText(ft, (W - x.measureText(ft).width) / 2, fy + (tall ? 2 : 0));
   return c;
 }
-function caption(top, am) {
+function wrapText(x, text, maxW) {
+  const words = String(text).split(/\s+/), lines = []; let cur = '';
+  words.forEach(w => { const t = cur ? cur + ' ' + w : w; if (x.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; });
+  if (cur) lines.push(cur); return lines;
+}
+function caption(top, am, dyk) {
   const d = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: TZ });
   return '🦈 Best shark beaches ' + (am ? 'this morning (5–11 AM)' : 'tonight') + ', ' + d + ' (drone-legal spots)\n\n' +
     top.map((r, i) => (i + 1) + '. ' + r.name + ' (' + r.score + '): ' + (r.w ? r.w.dir + ' ' + r.w.avg + ' mph' : '') + (r.wv != null ? ', ' + (Math.round(r.wv * 2) / 2) + ' ft surf' : '') + (r.wt != null ? ', ' + Math.round(r.wt) + '°F water' : '') + (r.w && r.w.front ? ', front coming ⚡' : '') + (r.note ? ' · ' + r.note : '')).join('\n') +
-    '\n\nRanked by the SharkLeash Drop Score (out of 100): wind, surf, water temp, sharks and bait running, and deep water close.\nCheck your own beach free: link in bio 🔗\n#sharkleashfishing #sharkfishing #landbasedsharkfishing #dronefishing #LBSF\n';
+    (dyk ? '\n\n💡 Did you know? ' + dyk.fact : '') + '\n\nRanked by the SharkLeash Drop Score (out of 100): wind, surf, water temp, sharks and bait running, and deep water close.\nCheck your own beach free: link in bio 🔗\n#sharkleashfishing #sharkfishing #landbasedsharkfishing #dronefishing #LBSF\n';
 }
 module.exports = function makeImages(top, outDir, opt) {
-  const am = !!(opt && opt.am);
+  const am = !!(opt && opt.am), dyk = (opt && opt.dyk) || global.SL_DYK || null;
   fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, 'tiktok.png'), draw(top, 1080, 1920, am).toBuffer('image/png'));
-  fs.writeFileSync(path.join(outDir, 'instagram.png'), draw(top, 1080, 1350, am).toBuffer('image/png'));
-  fs.writeFileSync(path.join(outDir, 'caption.txt'), caption(top, am));
+  fs.writeFileSync(path.join(outDir, 'tiktok.png'), draw(top, 1080, 1920, am, dyk).toBuffer('image/png'));
+  fs.writeFileSync(path.join(outDir, 'instagram.png'), draw(top, 1080, 1350, am, dyk).toBuffer('image/png'));
+  fs.writeFileSync(path.join(outDir, 'caption.txt'), caption(top, am, dyk));
 };
